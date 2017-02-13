@@ -10,18 +10,19 @@ Android自定义相册，实现了拍照、图片选择（单选/多选）、 �
 ## 下载Picseler
 Android Studio
 ```gradle
-compile 'com.github.ezhuwx:Picseler:0.0.1'
+compile 'com.github.ezhuwx:Picseler:1.0.3'
 compile 'com.android.support:support-v4:23.1.1'
 ```
 
-# 0.0.1内容
+# 1.0.3内容
 * 适配 7.0
 * 适配浅色状态栏
 * 强制剪裁去掉剪裁图标 
-
+* 适配浅色列表
+* 增加16:9，4:3剪裁比例
 ## 具体使用
 1、通过gradle把Picseler添加到你的项目里
-compile 'com.github.ezhuwx:Picseler:0.0.1'
+compile 'com.github.ezhuwx:Picseler:1.0.3'
 2、在你的Application中添加配置Picseler
 7.0适配
 在 AndroidManfest application 节点添加
