@@ -122,6 +122,7 @@
     </RelativeLayout>
 
     <View
+        android:id="@+id/line"
         android:layout_width="match_parent"
         android:layout_height="5dp"
         android:layout_below="@+id/titlebar"
@@ -130,7 +131,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/titlebar">
+        android:layout_below="@id/line">
 
         <GridView
             android:id="@+id/gv_photo_list"

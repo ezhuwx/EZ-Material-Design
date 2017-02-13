@@ -28,7 +28,7 @@
         </activity>
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.ez.file.provider"
+            android:authorities="com.ezhuwx.file.provider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
