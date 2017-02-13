@@ -1,15 +1,7 @@
 ![](images/gallery_final_effect.png)
-# GalleryFinal简介
-Android自定义相册，实现了拍照、图片选择（单选/多选）、 裁剪（单/多裁剪）、旋转、ImageLoader无绑定任由开发者选择、功能可配置、主题样式可配置。GalleryFinal为你定制相册。
-
-## 为什么要使用GalleryFinal？
-* 拍照/选择图片倒立问题
-* 市场上各种相机和图片浏览器泛滥导致各种异常问题
-* 各种手机兼容性问题引起crash
-* 系统Gallery App不能进行多选
-* 系统拍照/选择图片/裁剪视乎不太好用
-* 系统Gallery App不美观
-* ……
+# Picseler简介
+基于 GalleryFinal 地址：(https://github.com/pengjianbo/GalleryFinal)
+Android自定义相册，实现了拍照、图片选择（单选/多选）、 裁剪（单/多裁剪）、旋转、ImageLoader无绑定任由开发者选择、功能可配置、主题样式可配置。
 
 ** [简书文章](http://www.jianshu.com/p/48ddd6756b7a) **
 
@@ -23,9 +15,9 @@ Demo apk二维码地址：
 ![](images/gallery_selects.jpg)       ![](images/gallery_edit.jpg)
 
 
-# GalleryFinal使用方法
+# Picseler使用方法
 
-## 下载GalleryFinal
+## 下载Picseler
 通过Gradle抓取:
 
 ```gradle
@@ -33,21 +25,14 @@ compile 'cn.finalteam:galleryfinal:1.4.8.7'
 compile 'com.android.support:support-v4:23.1.1'
 ```
 
-# Next Version
-* 添加多选强制裁剪
-* 图片分页查看
-* 拍照自动纠正图片(自动旋转)
-* 添加配置-配置图片压缩到指定大小后返回调用者
-* 精简配置
-* ……
-
-# 1.4.8.4更新内容
-* 解决fresco gif图片不显示问题
-
+# 0.0.1内容
+* 适配 7.0
+* 适配浅色状态栏
+* 强制剪裁去掉剪裁图标 
 ## 具体使用
-1、通过gradle把GalleryFinal添加到你的项目里
+1、通过gradle把Picseler添加到你的项目里
 
-2、在你的Application中添加配置GallerFinal
+2、在你的Application中添加配置Picseler
 
 ```java
 //设置主题
@@ -73,7 +58,7 @@ CoreConfig coreConfig = new CoreConfig.Builder(context, imageloader, theme)
         .setFunctionConfig(functionConfig)
         ...
         .build();
-GalleryFinal.init(coreConfig);
+Picseler.init(coreConfig);
 ```
 
 3、选择图片加载器
@@ -268,13 +253,12 @@ setPauseOnScrollListener//设置imageloader滑动加载图片优化OnScrollListe
 
 
 # 感谢（Thanks）
+* GalleryFinal (https://github.com/pengjianbo/GalleryFinal)
 * 图片裁剪[android-crop](https://github.com/jdamcd/android-crop)
 * 图片缩放[PhotoView](https://github.com/chrisbanes/PhotoView)
 
 # 关于作者
-* **QQ:**172340021   
-* **QQ群:**218801658  
-* **Email:**<pengjianbo@finalteam.cn>
+* **Email:**<ezhuwx@163.com>
 
 
 
