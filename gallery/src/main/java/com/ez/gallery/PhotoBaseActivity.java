@@ -130,11 +130,13 @@ public abstract class PhotoBaseActivity extends Activity implements EasyPermissi
         boolean suc = FileUtils.mkdirs(takePhotoFolder);
         File toFile = new File(takePhotoFolder, "IMG" + DateUtils.format(new Date(), "yyyyMMddHHmmss") + ".jpg");
 
+
         if (suc) {
-            mTakePhotoUri = FileProvider.getUriForFile(this, "com.ez.file.provider", toFile);//通过FileProvider创建一个content类型的Uri
+            mTakePhotoUri = Uri.fromFile(toFile);
+            Uri uri = FileProvider.getUriForFile(this, Picseler.getCoreConfig().getFileProvider(), toFile);//通过FileProvider创建一个content类型的Uri
             Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             captureIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, mTakePhotoUri);
+            captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
             startActivityForResult(captureIntent, Picseler.TAKE_REQUEST_CODE);
         } else {
             takePhotoFailure();

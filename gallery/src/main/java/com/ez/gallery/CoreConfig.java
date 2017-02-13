@@ -20,7 +20,6 @@ import android.content.Context;
 import android.os.Environment;
 import android.widget.AbsListView;
 
-
 import java.io.File;
 
 /**
@@ -32,6 +31,7 @@ public class CoreConfig {
     private Context context;
     private ImageLoader imageLoader;
     private File takePhotoFolder;
+    private String FileProvider ;
     private File editPhotoCacheFolder;
     private ThemeConfig themeConfig;
     private FunctionConfig functionConfig;
@@ -44,6 +44,7 @@ public class CoreConfig {
         this.takePhotoFolder = builder.takePhotoFolder;
         this.editPhotoCacheFolder = builder.editPhotoCacheFolder;
         this.themeConfig = builder.themeConfig;
+        this.FileProvider = builder.FileProvider;
         this.functionConfig = builder.functionConfig;
         if(builder.noAnimcation) {
             this.animRes = -1;
@@ -74,6 +75,7 @@ public class CoreConfig {
         private File takePhotoFolder;//配置拍照缓存目录
         private File editPhotoCacheFolder;//配置编辑图片产生的文件缓存目录
         private FunctionConfig functionConfig;
+        private String FileProvider = "com.ez.file.provider";
         private int animRes;
         private boolean noAnimcation;
         private AbsListView.OnScrollListener onScrollListener;
@@ -124,6 +126,10 @@ public class CoreConfig {
             return this;
         }
 
+        public void setFileProvider(String fileProvider) {
+            FileProvider = fileProvider;
+        }
+
         public CoreConfig build() {
             return new CoreConfig(this);
         }
@@ -147,6 +153,9 @@ public class CoreConfig {
 
     public int getAnimation() {
         return animRes;
+    }
+    public String getFileProvider() {
+        return FileProvider;
     }
 
     public ThemeConfig getThemeConfig() {
