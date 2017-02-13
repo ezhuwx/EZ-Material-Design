@@ -332,6 +332,7 @@ public class MainActivity extends AppCompatActivity {
                         .setFunctionConfig(functionConfig)
                         .setPauseOnScrollListener(pauseOnScrollListener)
                         .setNoAnimcation(mCbNoAnimation.isChecked())
+                        .setFileProvider("com.ezhuwx.file.provider")
                         .build();
                 Picseler.init(coreConfig);
 

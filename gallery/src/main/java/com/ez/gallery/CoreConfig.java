@@ -126,8 +126,9 @@ public class CoreConfig {
             return this;
         }
 
-        public void setFileProvider(String fileProvider) {
+        public Builder setFileProvider(String fileProvider) {
             FileProvider = fileProvider;
+            return this;
         }
 
         public CoreConfig build() {
