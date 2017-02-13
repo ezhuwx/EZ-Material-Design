@@ -10,18 +10,19 @@ Android自定义相册，实现了拍照、图片选择（单选/多选）、 �
 ## 下载Picseler
 Android Studio
 ```gradle
-compile 'com.github.ezhuwx:Picseler:0.0.1'
+compile 'com.github.ezhuwx:Picseler:1.0.3'
 compile 'com.android.support:support-v4:23.1.1'
 ```
 
-# 0.0.1内容
+# 1.0.3内容
 * 适配 7.0
 * 适配浅色状态栏
 * 强制剪裁去掉剪裁图标 
-
+* 适配浅色列表
+* 增加16:9，4:3剪裁比例
 ## 具体使用
 1、通过gradle把Picseler添加到你的项目里
-compile 'com.github.ezhuwx:Picseler:0.0.1'
+compile 'com.github.ezhuwx:Picseler:1.0.3'
 2、在你的Application中添加配置Picseler
 7.0适配
 在 AndroidManfest application 节点添加
@@ -65,22 +66,22 @@ Picseler.init(coreConfig);
 3、选择图片加载器
 
 * **UIL实现**
-[使用UniversalImageLoader点这里](https://github.com/pengjianbo/GalleryFinal/blob/master/app/src/main/java/com/ez/gallery/sample/loader/UILImageLoader.java)
+[使用UniversalImageLoader点这里](https://github.com/ezhuwx/Picseler/blob/master/app/src/main/java/com/ez/gallery/sample/loader/UILImageLoader.java)
 
 * **Glide实现**
-[使用Glide点这里](https://github.com/pengjianbo/GalleryFinal/blob/master/app/src/main/java/com/ez/gallery/sample/loader/GlideImageLoader.java)
+[使用Glide点这里](https://github.com/ezhuwx/Picseler/blob/master/app/src/main/java/com/ez/gallery/sample/loader/GlideImageLoader.java)
 
 * **Picasso实现**
-[使用picasso点这里](https://github.com/pengjianbo/GalleryFinal/blob/master/app/src/main/java/com/ez/gallery/sample/loader/PicassoImageLoader.java)
+[使用picasso点这里](https://github.com/ezhuwx/Picseler/blob/master/app/src/main/java/com/ez/gallery/sample/loader/PicassoImageLoader.java)
 
 * **fresco实现**
-[使用fresco点这里](https://github.com/pengjianbo/GalleryFinal/blob/master/app/src/main/javacom/ez/gallery/galleryfinal/sample/loader/FrescoImageLoader.java)
+[使用fresco点这里](https://github.com/ezhuwx/Picseler/blob/master/app/src/main/javacom/ez/gallery/galleryfinal/sample/loader/FrescoImageLoader.java)
 
 * **xUtils3实现**
-[使用xUtils点这里](https://github.com/pengjianbo/GalleryFinal/blob/master/app/src/main/java/com/ez/gallery/sample/loader/XUtilsImageLoader.java)
+[使用xUtils点这里](https://github.com/ezhuwx/Picseler/blob/master/app/src/main/java/com/ez/gallery/sample/loader/XUtilsImageLoader.java)
 
 * **xUitls2实现**
-[使用xUtils2点这里](https://github.com/pengjianbo/GalleryFinal/blob/master/app/src/main/java/com/ez/gallery/sample/loader/XUtils2ImageLoader.java)
+[使用xUtils2点这里](https://github.com/ezhuwx/Picseler/blob/master/app/src/main/java/com/ez/gallery/sample/loader/XUtils2ImageLoader.java)
 
 
 * **自定义**
@@ -250,7 +251,7 @@ setPauseOnScrollListener//设置imageloader滑动加载图片优化OnScrollListe
 -keep class cn.finalteam.galleryfinal.widget.zoonview.*{*;}
 ```
 
-## [更新日志](https://github.com/pengjianbo/GalleryFinal/blob/master/CHANGELOG.md)
+## [更新日志](https://github.com/ezhuwx/Picseler/blob/master/CHANGELOG.md)
 
 
 # 感谢（Thanks）
