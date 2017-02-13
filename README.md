@@ -8,10 +8,9 @@ Android自定义相册，实现了拍照、图片选择（单选/多选）、 �
 # Picseler使用方法
 
 ## 下载Picseler
-通过Gradle抓取:
-
+Android Studio
 ```gradle
-compile 'cn.finalteam:galleryfinal:1.4.8.7'
+compile 'com.github.ezhuwx:Picseler:0.0.1'
 compile 'com.android.support:support-v4:23.1.1'
 ```
 
@@ -19,6 +18,7 @@ compile 'com.android.support:support-v4:23.1.1'
 * 适配 7.0
 * 适配浅色状态栏
 * 强制剪裁去掉剪裁图标 
+
 ## 具体使用
 1、通过gradle把Picseler添加到你的项目里
 compile 'com.github.ezhuwx:Picseler:0.0.1'
@@ -65,22 +65,22 @@ Picseler.init(coreConfig);
 3、选择图片加载器
 
 * **UIL实现**
-[使用UniversalImageLoader点这里](https://github.com/pengjianbo/GalleryFinal/blob/master/app/src/main/java/cn/finalteam/galleryfinal/sample/loader/UILImageLoader.java)
+[使用UniversalImageLoader点这里](https://github.com/pengjianbo/GalleryFinal/blob/master/app/src/main/java/com/ez/gallery/sample/loader/UILImageLoader.java)
 
 * **Glide实现**
-[使用Glide点这里](https://github.com/pengjianbo/GalleryFinal/blob/master/app/src/main/java/cn/finalteam/galleryfinal/sample/loader/GlideImageLoader.java)
+[使用Glide点这里](https://github.com/pengjianbo/GalleryFinal/blob/master/app/src/main/java/com/ez/gallery/sample/loader/GlideImageLoader.java)
 
 * **Picasso实现**
-[使用picasso点这里](https://github.com/pengjianbo/GalleryFinal/blob/master/app/src/main/java/cn/finalteam/galleryfinal/sample/loader/PicassoImageLoader.java)
+[使用picasso点这里](https://github.com/pengjianbo/GalleryFinal/blob/master/app/src/main/java/com/ez/gallery/sample/loader/PicassoImageLoader.java)
 
 * **fresco实现**
-[使用fresco点这里](https://github.com/pengjianbo/GalleryFinal/blob/master/app/src/main/java/cn/finalteam/galleryfinal/sample/loader/FrescoImageLoader.java)
+[使用fresco点这里](https://github.com/pengjianbo/GalleryFinal/blob/master/app/src/main/javacom/ez/gallery/galleryfinal/sample/loader/FrescoImageLoader.java)
 
 * **xUtils3实现**
-[使用xUtils点这里](https://github.com/pengjianbo/GalleryFinal/blob/master/app/src/main/java/cn/finalteam/galleryfinal/sample/loader/XUtilsImageLoader.java)
+[使用xUtils点这里](https://github.com/pengjianbo/GalleryFinal/blob/master/app/src/main/java/com/ez/gallery/sample/loader/XUtilsImageLoader.java)
 
 * **xUitls2实现**
-[使用xUtils2点这里](https://github.com/pengjianbo/GalleryFinal/blob/master/app/src/main/java/cn/finalteam/galleryfinal/sample/loader/XUtils2ImageLoader.java)
+[使用xUtils2点这里](https://github.com/pengjianbo/GalleryFinal/blob/master/app/src/main/java/com/ez/gallery/sample/loader/XUtils2ImageLoader.java)
 
 
 * **自定义**
@@ -97,9 +97,9 @@ Picseler.init(coreConfig);
 
 * ……
 
-4、启动GalleryFinal
+4、启动Picseler
 
-在GalleryFinal 1.3.0版本中相册、拍照、裁剪和图片编辑功能可独立使用
+在Picseler 0.0.1版本中相册、拍照、裁剪和图片编辑功能可独立使用
 
 **REQUEST_CODE_GALLERY 为请求码**
 **functionConfig 为功能配置**
@@ -108,45 +108,45 @@ Picseler.init(coreConfig);
 * 单选打开相册
 
 ```java
-GalleryFinal.openGallerySingle(REQUEST_CODE_GALLERY, mOnHanlderResultCallback);
+Picseler.openGallerySingle(REQUEST_CODE_GALLERY, mOnHanlderResultCallback);
 //带配置
-GalleryFinal.openGallerySingle(REQUEST_CODE_GALLERY, functionConfig, mOnHanlderResultCallback);
+Picseler.openGallerySingle(REQUEST_CODE_GALLERY, functionConfig, mOnHanlderResultCallback);
 
 ```
 
 * 多选打开相册
 ```java
-GalleryFinal.openGalleryMuti(REQUEST_CODE_GALLERY, mOnHanlderResultCallback);
+Picseler.openGalleryMuti(REQUEST_CODE_GALLERY, mOnHanlderResultCallback);
 //带配置
 FunctionConfig config = new FunctionConfig.Builder(MainActivity.this)
     .setMutiSelectMaxSize(8)
     .build();
-GalleryFinal.openGalleryMuti(REQUEST_CODE_GALLERY, functionConfig, mOnHanlderResultCallback);
+Picseler.openGalleryMuti(REQUEST_CODE_GALLERY, functionConfig, mOnHanlderResultCallback);
 
 ```
 
 * 使用拍照
 
 ```java
-GalleryFinal.openCamera(REQUEST_CODE_CAMERA, mOnHanlderResultCallback);
+Picseler.openCamera(REQUEST_CODE_CAMERA, mOnHanlderResultCallback);
 //带配置
-GalleryFinal.openCamera(REQUEST_CODE_CAMERA, functionConfig, mOnHanlderResultCallback);
+Picseler.openCamera(REQUEST_CODE_CAMERA, functionConfig, mOnHanlderResultCallback);
 ```
 
 * 使用裁剪
 
 ```java
-GalleryFinal.openCrop(REQUEST_CODE_CROP, mOnHanlderResultCallback);
+Picseler.openCrop(REQUEST_CODE_CROP, mOnHanlderResultCallback);
 //带配置
-GalleryFinal.openCrop(REQUEST_CODE_CROP, functionConfig, mOnHanlderResultCallback);
+Picseler.openCrop(REQUEST_CODE_CROP, functionConfig, mOnHanlderResultCallback);
 ```
 
 * 使用图片编辑
 
 ```java
-GalleryFinal.openEdit(REQUEST_CODE_EDIT, mOnHanlderResultCallback);
+Picseler.openEdit(REQUEST_CODE_EDIT, mOnHanlderResultCallback);
 //带配置
-GalleryFinal.openEdit(REQUEST_CODE_EDIT, functionConfig, mOnHanlderResultCallback);
+Picseler.openEdit(REQUEST_CODE_EDIT, functionConfig, mOnHanlderResultCallback);
 ```
 
 * **FunctionConfig Builder类说明**
@@ -195,7 +195,7 @@ setEnablePreview(boolean)//是否开启预览功能
         .setIconCamera(R.mipmap.ic_action_camera)
         //...其他配置
         .build();
-GalleryFinal.init(theme);
+Picseler.init(theme);
 ```
 2)、**ThemeConfig类说明**
 ```java
@@ -226,8 +226,8 @@ setPreviewBg设置预览页背景
 ```java
 Builder(Context context, ImageLoader imageLoader, ThemeConfig themeConfig) //构建CoreConfig所需ImageLoader和ThemeConfig
 setDebug //debug开关
-setEditPhotoCacheFolder(File file)//配置编辑（裁剪和旋转）功能产生的cache文件保存目录，不做配置的话默认保存在/sdcard/GalleryFinal/edittemp/
-setTakePhotoFolder设置拍照保存目录，默认是/sdcard/DICM/GalleryFinal/
+setEditPhotoCacheFolder(File file)//配置编辑（裁剪和旋转）功能产生的cache文件保存目录，不做配置的话默认保存在/sdcard/Picseler/edittemp/
+setTakePhotoFolder设置拍照保存目录，默认是/sdcard/DICM/Picseler/
 setFunctionConfig //配置全局GalleryFinal功能
 setNoAnimcation//关闭动画
 setPauseOnScrollListener//设置imageloader滑动加载图片优化OnScrollListener,根据选择的ImageLoader来选择PauseOnScrollListener
@@ -279,6 +279,3 @@ License
     limitations under the License.
     
     
-
-
-  [1]: https://github.com/pengjianbo/GalleryFinal/blob/master/app/src/main/java/cn/finalteam/galleryfinal/sample/loader/UILImageLoader.java
