@@ -1,18 +1,8 @@
-![](images/gallery_final_effect.png)
 # Picseler简介
 基于 GalleryFinal 地址：(https://github.com/pengjianbo/GalleryFinal)
 Android自定义相册，实现了拍照、图片选择（单选/多选）、 裁剪（单/多裁剪）、旋转、ImageLoader无绑定任由开发者选择、功能可配置、主题样式可配置。
 
 ** [简书文章](http://www.jianshu.com/p/48ddd6756b7a) **
-
-###**注：1)、现支持所有主流的ImageLoader，包括Glide/Fresco/Picasso/UIL等，如果你觉得还不满足，欢迎在issues上提问。2)、本项目是基于SDK 23（6.0）系统编译的请开发者将targetSdkVersion改成23**
-
-## 截图展示
-Demo apk二维码地址：
-![DEMO APK](images/gallery_final_qrcode.png)
-![](images/functions.jpg)
-
-![](images/gallery_selects.jpg)       ![](images/gallery_edit.jpg)
 
 
 # Picseler使用方法
@@ -31,9 +21,20 @@ compile 'com.android.support:support-v4:23.1.1'
 * 强制剪裁去掉剪裁图标 
 ## 具体使用
 1、通过gradle把Picseler添加到你的项目里
-
+compile 'com.github.ezhuwx:Picseler:0.0.1'
 2、在你的Application中添加配置Picseler
-
+7.0适配
+在 AndroidManfest application 节点添加
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.ez.file.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+        
 ```java
 //设置主题
 //ThemeConfig.CYAN
