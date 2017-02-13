@@ -27,9 +27,18 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.ez.ucrop.UCropActivity"
+            android:name="cn.finalteam.galleryfinal.ucrop.UCropActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"/>
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.ez.file.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
 
 </manifest>

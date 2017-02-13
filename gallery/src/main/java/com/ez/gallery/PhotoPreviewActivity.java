@@ -8,13 +8,15 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.ez.gallery.adapter.PhotoPreviewAdapter;
+import com.ez.gallery.model.PhotoInfo;
+import com.ez.gallery.utils.WindowsFitUtils;
+import com.ez.gallery.widget.GFViewPager;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.ez.gallery.adapter.PhotoPreviewAdapter;
-import com.ez.gallery.model.PhotoInfo;
-import com.ez.gallery.widget.GFViewPager;
 import cn.finalteam.toolsfinal.ActivityManager;
 
 /**
@@ -39,7 +41,7 @@ public class PhotoPreviewActivity extends PhotoBaseActivity implements ViewPager
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mThemeConfig = GalleryFinal.getGalleryTheme();
+        mThemeConfig = Picseler.getGalleryTheme();
 
         if ( mThemeConfig == null) {
             resultFailureDelayed(getString(R.string.please_reopen_gf), true);
@@ -70,6 +72,9 @@ public class PhotoPreviewActivity extends PhotoBaseActivity implements ViewPager
     }
 
     private void setTheme() {
+        if(mThemeConfig.isDarkStatus()){
+            WindowsFitUtils.setWindowsFitColor(this);
+        }
         mIvBack.setImageResource(mThemeConfig.getIconBack());
         if (mThemeConfig.getIconBack() == R.drawable.ic_gf_back) {
             mIvBack.setColorFilter(mThemeConfig.getTitleBarIconColor());

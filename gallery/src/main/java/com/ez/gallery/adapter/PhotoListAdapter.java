@@ -23,7 +23,7 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
 import android.widget.ImageView;
-import com.ez.gallery.GalleryFinal;
+import com.ez.gallery.Picseler;
 import com.ez.gallery.R;
 import com.ez.gallery.model.PhotoInfo;
 import com.ez.gallery.widget.GFImageView;
@@ -69,18 +69,18 @@ public class PhotoListAdapter extends ViewHolderAdapter<PhotoListAdapter.PhotoVi
 
         holder.mIvThumb.setImageResource(R.drawable.ic_gf_default_photo);
         Drawable defaultDrawable = mActivity.getResources().getDrawable(R.drawable.ic_gf_default_photo);
-        GalleryFinal.getCoreConfig().getImageLoader().displayImage(mActivity, path, holder.mIvThumb, defaultDrawable, mRowWidth, mRowWidth);
+        Picseler.getCoreConfig().getImageLoader().displayImage(mActivity, path, holder.mIvThumb, defaultDrawable, mRowWidth, mRowWidth);
         holder.mView.setAnimation(null);
-        if (GalleryFinal.getCoreConfig().getAnimation() > 0) {
-            holder.mView.setAnimation(AnimationUtils.loadAnimation(mActivity, GalleryFinal.getCoreConfig().getAnimation()));
+        if (Picseler.getCoreConfig().getAnimation() > 0) {
+            holder.mView.setAnimation(AnimationUtils.loadAnimation(mActivity, Picseler.getCoreConfig().getAnimation()));
         }
-        holder.mIvCheck.setImageResource(GalleryFinal.getGalleryTheme().getIconCheck());
-        if ( GalleryFinal.getFunctionConfig().isMutiSelect() ) {
+        holder.mIvCheck.setImageResource(Picseler.getGalleryTheme().getIconCheck());
+        if ( Picseler.getFunctionConfig().isMutiSelect() ) {
             holder.mIvCheck.setVisibility(View.VISIBLE);
             if (mSelectList.contains(photoInfo)) {
-                holder.mIvCheck.setBackgroundColor(GalleryFinal.getGalleryTheme().getCheckSelectedColor());
+                holder.mIvCheck.setBackgroundColor(Picseler.getGalleryTheme().getCheckSelectedColor());
             } else {
-                holder.mIvCheck.setBackgroundColor(GalleryFinal.getGalleryTheme().getCheckNornalColor());
+                holder.mIvCheck.setBackgroundColor(Picseler.getGalleryTheme().getCheckNornalColor());
             }
         } else {
             holder.mIvCheck.setVisibility(View.GONE);

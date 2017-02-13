@@ -24,6 +24,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Message;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -139,13 +140,11 @@ public class PhotoEditActivity extends CropImageActivity implements AdapterView.
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            if ( msg.what == CROP_SUC ) {
+            if (msg.what == CROP_SUC) {
                 String path = (String) msg.obj;
                 PhotoInfo photoInfo = mPhotoList.get(mSelectIndex);
                 try {
-                    Iterator<Map.Entry<Integer, PhotoTempModel>> entries = mPhotoTempMap.entrySet().iterator();
-                    while (entries.hasNext()) {
-                        Map.Entry<Integer, PhotoTempModel> entry = entries.next();
+                    for (Map.Entry<Integer, PhotoTempModel> entry : mPhotoTempMap.entrySet()) {
                         if (entry.getKey() == photoInfo.getPhotoId()) {
                             PhotoTempModel tempModel = entry.getValue();
                             tempModel.setSourcePath(path);
@@ -154,54 +153,56 @@ public class PhotoEditActivity extends CropImageActivity implements AdapterView.
                     }
                 } catch (Exception e) {
                 }
-                toast(getString(R.string.crop_suc));
+                //toast(getString(R.string.crop_suc));
 
                 Message message = mHanlder.obtainMessage();
                 message.what = UPDATE_PATH;
                 message.obj = path;
                 mHanlder.sendMessage(message);
 
-            } else if ( msg.what == CROP_FAIL ) {
+            } else if (msg.what == CROP_FAIL) {
                 toast(getString(R.string.crop_fail));
-            } else if ( msg.what == UPDATE_PATH ) {
+            } else if (msg.what == UPDATE_PATH) {
+                Log.i("handleMessage","UPDATE_PATH");
                 if (mPhotoList.get(mSelectIndex) != null) {
                     PhotoInfo photoInfo = mPhotoList.get(mSelectIndex);
                     String path = (String) msg.obj;
-                    //photoInfo.setThumbPath(path);
+                    Log.i("handleMessage","UPDATE_PATH : " + path);
                     try {
-                        for(Iterator<PhotoInfo> iterator = mSelectPhotoList.iterator();iterator.hasNext();){
-                            PhotoInfo info = iterator.next();
+                        for (PhotoInfo info : mSelectPhotoList) {
                             if (info != null && info.getPhotoId() == photoInfo.getPhotoId()) {
                                 info.setPhotoPath(path);
+                                Log.i("handleMessage","UPDATE_PATH : " + info.getPhotoPath());
                             }
                         }
                     } catch (Exception e) {
                     }
                     photoInfo.setPhotoPath(path);
-
                     loadImage(photoInfo);
                     mPhotoEditListAdapter.notifyDataSetChanged();
                 }
 
-                if (com.ez.gallery.GalleryFinal.getFunctionConfig().isForceCrop() && !com.ez.gallery.GalleryFinal.getFunctionConfig().isForceCropEdit()) {
+                if (Picseler.getFunctionConfig().isForceCrop() && !Picseler.getFunctionConfig().isForceCropEdit()) {
                     resultAction();
                 }
-            }
+    }
             corpPageState(false);
             mCropState = false;
-            mTvTitle.setText(R.string.photo_edit);
+            if (!(Picseler.getFunctionConfig().isForceCrop() && !Picseler.getFunctionConfig().isForceCropEdit())) {
+                mTvTitle.setText(R.string.photo_edit);
+            }
         }
     };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if ( com.ez.gallery.GalleryFinal.getFunctionConfig() == null || com.ez.gallery.GalleryFinal.getGalleryTheme() == null) {
+        if (Picseler.getFunctionConfig() == null || Picseler.getGalleryTheme() == null) {
             resultFailureDelayed(getString(R.string.please_reopen_gf), true);
         } else {
+            Log.i("onCreate","onCreate");
             setContentView(R.layout.gf_activity_photo_edit);
             mDefaultDrawable = getResources().getDrawable(R.drawable.ic_gf_default_photo);
-
             mSelectPhotoList = (ArrayList<PhotoInfo>) getIntent().getSerializableExtra(SELECT_MAP);
             mTakePhotoAction = this.getIntent().getBooleanExtra(TAKE_PHOTO_ACTION, false);
             mCropPhotoAction = this.getIntent().getBooleanExtra(CROP_PHOTO_ACTION, false);
@@ -213,7 +214,7 @@ public class PhotoEditActivity extends CropImageActivity implements AdapterView.
             mPhotoTempMap = new LinkedHashMap<>();
             mPhotoList = new ArrayList<>(mSelectPhotoList);
 
-            mEditPhotoCacheFile = com.ez.gallery.GalleryFinal.getCoreConfig().getEditPhotoCacheFolder();
+            mEditPhotoCacheFile = Picseler.getCoreConfig().getEditPhotoCacheFolder();
 
             if (mPhotoList == null) {
                 mPhotoList = new ArrayList<>();
@@ -239,23 +240,23 @@ public class PhotoEditActivity extends CropImageActivity implements AdapterView.
                 e.printStackTrace();
             }
 
-            if (com.ez.gallery.GalleryFinal.getFunctionConfig().isCamera()) {
+            if (Picseler.getFunctionConfig().isCamera()) {
                 mIvTakePhoto.setVisibility(View.VISIBLE);
             }
 
-            if (com.ez.gallery.GalleryFinal.getFunctionConfig().isCrop()) {
+            if (Picseler.getFunctionConfig().isCrop()) {
                 mIvCrop.setVisibility(View.VISIBLE);
             }
 
-            if (com.ez.gallery.GalleryFinal.getFunctionConfig().isRotate()) {
+            if (Picseler.getFunctionConfig().isRotate()) {
                 mIvRotate.setVisibility(View.VISIBLE);
             }
 
-            if (!com.ez.gallery.GalleryFinal.getFunctionConfig().isMutiSelect()) {
+            if (!Picseler.getFunctionConfig().isMutiSelect()) {
                 mLlGallery.setVisibility(View.GONE);
             }
 
-            initCrop(mIvCropPhoto, com.ez.gallery.GalleryFinal.getFunctionConfig().isCropSquare(), com.ez.gallery.GalleryFinal.getFunctionConfig().getCropWidth(), com.ez.gallery.GalleryFinal.getFunctionConfig().getCropHeight());
+            initCrop(mIvCropPhoto, Picseler.getFunctionConfig().isCropSquare(), Picseler.getFunctionConfig().getCropWidth(), Picseler.getFunctionConfig().getCropHeight());
             if (mPhotoList.size() > 0 && !mTakePhotoAction) {
                 loadImage(mPhotoList.get(0));
             }
@@ -266,7 +267,7 @@ public class PhotoEditActivity extends CropImageActivity implements AdapterView.
             }
             if (mCropPhotoAction) {
                 mIvCrop.performClick();
-                if ( !com.ez.gallery.GalleryFinal.getFunctionConfig().isRotate() && !com.ez.gallery.GalleryFinal.getFunctionConfig().isCamera()) {
+                if (!Picseler.getFunctionConfig().isRotate() && !Picseler.getFunctionConfig().isCamera()) {
                     mIvCrop.setVisibility(View.GONE);
                 }
             } else {
@@ -274,48 +275,48 @@ public class PhotoEditActivity extends CropImageActivity implements AdapterView.
                 hasForceCrop();
             }
 
-            if(com.ez.gallery.GalleryFinal.getFunctionConfig().isEnablePreview()){
+            if (Picseler.getFunctionConfig().isEnablePreview()) {
                 mIvPreView.setVisibility(View.VISIBLE);
             }
         }
     }
 
     private void setTheme() {
-        mIvBack.setImageResource(com.ez.gallery.GalleryFinal.getGalleryTheme().getIconBack());
-        if (com.ez.gallery.GalleryFinal.getGalleryTheme().getIconBack() == R.drawable.ic_gf_back) {
-            mIvBack.setColorFilter(com.ez.gallery.GalleryFinal.getGalleryTheme().getTitleBarIconColor());
+        mIvBack.setImageResource(Picseler.getGalleryTheme().getIconBack());
+        if (Picseler.getGalleryTheme().getIconBack() == R.drawable.ic_gf_back) {
+            mIvBack.setColorFilter(Picseler.getGalleryTheme().getTitleBarIconColor());
         }
 
-        mIvTakePhoto.setImageResource(com.ez.gallery.GalleryFinal.getGalleryTheme().getIconCamera());
-        if (com.ez.gallery.GalleryFinal.getGalleryTheme().getIconCamera() == R.drawable.ic_gf_camera) {
-            mIvTakePhoto.setColorFilter(com.ez.gallery.GalleryFinal.getGalleryTheme().getTitleBarIconColor());
+        mIvTakePhoto.setImageResource(Picseler.getGalleryTheme().getIconCamera());
+        if (Picseler.getGalleryTheme().getIconCamera() == R.drawable.ic_gf_camera) {
+            mIvTakePhoto.setColorFilter(Picseler.getGalleryTheme().getTitleBarIconColor());
         }
 
-        mIvCrop.setImageResource(com.ez.gallery.GalleryFinal.getGalleryTheme().getIconCrop());
-        if (com.ez.gallery.GalleryFinal.getGalleryTheme().getIconCrop() == R.drawable.ic_gf_crop) {
-            mIvCrop.setColorFilter(com.ez.gallery.GalleryFinal.getGalleryTheme().getTitleBarIconColor());
+        mIvCrop.setImageResource(Picseler.getGalleryTheme().getIconCrop());
+        if (Picseler.getGalleryTheme().getIconCrop() == R.drawable.ic_gf_crop) {
+            mIvCrop.setColorFilter(Picseler.getGalleryTheme().getTitleBarIconColor());
         }
 
-        mIvPreView.setImageResource(com.ez.gallery.GalleryFinal.getGalleryTheme().getIconPreview());
-        if (com.ez.gallery.GalleryFinal.getGalleryTheme().getIconPreview() == R.drawable.ic_gf_preview) {
-            mIvPreView.setColorFilter(com.ez.gallery.GalleryFinal.getGalleryTheme().getTitleBarIconColor());
+        mIvPreView.setImageResource(Picseler.getGalleryTheme().getIconPreview());
+        if (Picseler.getGalleryTheme().getIconPreview() == R.drawable.ic_gf_preview) {
+            mIvPreView.setColorFilter(Picseler.getGalleryTheme().getTitleBarIconColor());
         }
 
-        mIvRotate.setImageResource(com.ez.gallery.GalleryFinal.getGalleryTheme().getIconRotate());
-        if (com.ez.gallery.GalleryFinal.getGalleryTheme().getIconRotate() == R.drawable.ic_gf_rotate) {
-            mIvRotate.setColorFilter(com.ez.gallery.GalleryFinal.getGalleryTheme().getTitleBarIconColor());
+        mIvRotate.setImageResource(Picseler.getGalleryTheme().getIconRotate());
+        if (Picseler.getGalleryTheme().getIconRotate() == R.drawable.ic_gf_rotate) {
+            mIvRotate.setColorFilter(Picseler.getGalleryTheme().getTitleBarIconColor());
         }
 
-        if ( com.ez.gallery.GalleryFinal.getGalleryTheme().getEditPhotoBgTexture() != null ) {
-            mIvSourcePhoto.setBackgroundDrawable(com.ez.gallery.GalleryFinal.getGalleryTheme().getEditPhotoBgTexture());
-            mIvCropPhoto.setBackgroundDrawable(com.ez.gallery.GalleryFinal.getGalleryTheme().getEditPhotoBgTexture());
+        if (Picseler.getGalleryTheme().getEditPhotoBgTexture() != null) {
+            mIvSourcePhoto.setBackgroundDrawable(Picseler.getGalleryTheme().getEditPhotoBgTexture());
+            mIvCropPhoto.setBackgroundDrawable(Picseler.getGalleryTheme().getEditPhotoBgTexture());
         }
 
-        mFabCrop.setIcon(com.ez.gallery.GalleryFinal.getGalleryTheme().getIconFab());
-        mTitlebar.setBackgroundColor(com.ez.gallery.GalleryFinal.getGalleryTheme().getTitleBarBgColor());
-        mTvTitle.setTextColor(com.ez.gallery.GalleryFinal.getGalleryTheme().getTitleBarTextColor());
-        mFabCrop.setColorPressed(com.ez.gallery.GalleryFinal.getGalleryTheme().getFabPressedColor());
-        mFabCrop.setColorNormal(com.ez.gallery.GalleryFinal.getGalleryTheme().getFabNornalColor());
+        mFabCrop.setIcon(Picseler.getGalleryTheme().getIconFab());
+        mTitlebar.setBackgroundColor(Picseler.getGalleryTheme().getTitleBarBgColor());
+        mTvTitle.setTextColor(Picseler.getGalleryTheme().getTitleBarTextColor());
+        mFabCrop.setColorPressed(Picseler.getGalleryTheme().getFabPressedColor());
+        mFabCrop.setColorNormal(Picseler.getGalleryTheme().getFabNornalColor());
     }
 
     private void findViews() {
@@ -346,22 +347,22 @@ public class PhotoEditActivity extends CropImageActivity implements AdapterView.
 
     @Override
     protected void takeResult(PhotoInfo info) {
-        if (!com.ez.gallery.GalleryFinal.getFunctionConfig().isMutiSelect()) {
+        if (!Picseler.getFunctionConfig().isMutiSelect()) {
             mPhotoList.clear();
             mSelectPhotoList.clear();
         }
         mPhotoList.add(0, info);
         mSelectPhotoList.add(info);
         mPhotoTempMap.put(info.getPhotoId(), new PhotoTempModel(info.getPhotoPath()));
-        if (!com.ez.gallery.GalleryFinal.getFunctionConfig().isEditPhoto() && mTakePhotoAction) {
+        if (!Picseler.getFunctionConfig().isEditPhoto() && mTakePhotoAction) {
             resultAction();
         } else {
-            if (com.ez.gallery.GalleryFinal.getFunctionConfig().isEnablePreview()) {
+            if (Picseler.getFunctionConfig().isEnablePreview()) {
                 mIvPreView.setVisibility(View.VISIBLE);
             }
             mPhotoEditListAdapter.notifyDataSetChanged();
 
-            com.ez.gallery.PhotoSelectActivity activity = (com.ez.gallery.PhotoSelectActivity) ActivityManager.getActivityManager().getActivity(com.ez.gallery.PhotoSelectActivity.class.getName());
+            PhotoSelectActivity activity = (PhotoSelectActivity) ActivityManager.getActivityManager().getActivity(PhotoSelectActivity.class.getName());
             if (activity != null) {
                 activity.takeRefreshGallery(info, true);
             }
@@ -380,18 +381,18 @@ public class PhotoEditActivity extends CropImageActivity implements AdapterView.
         if (photo != null) {
             path = photo.getPhotoPath();
         }
-        if (com.ez.gallery.GalleryFinal.getFunctionConfig().isCrop()) {
+        if (Picseler.getFunctionConfig().isCrop()) {
             setSourceUri(Uri.fromFile(new File(path)));
         }
-
-        com.ez.gallery.GalleryFinal.getCoreConfig().getImageLoader().displayImage(this, path, mIvSourcePhoto, mDefaultDrawable, mScreenWidth, mScreenHeight);
+        Picseler.getCoreConfig().getImageLoader().displayImage(this, path, mIvSourcePhoto, mDefaultDrawable, mScreenWidth, mScreenHeight);
     }
 
     public void deleteIndexByPreView(int position, PhotoInfo dPhoto) {
         try {
             mPhotoList.remove(position);
             mPhotoEditListAdapter.notifyDataSetChanged();
-        } catch (Exception e){}
+        } catch (Exception e) {
+        }
 
         deleteIndex(position, dPhoto);
     }
@@ -404,14 +405,15 @@ public class PhotoEditActivity extends CropImageActivity implements AdapterView.
             }
 
             try {
-                for(Iterator<PhotoInfo> iterator = mSelectPhotoList.iterator();iterator.hasNext();){
+                for (Iterator<PhotoInfo> iterator = mSelectPhotoList.iterator(); iterator.hasNext(); ) {
                     PhotoInfo info = iterator.next();
                     if (info != null && info.getPhotoId() == dPhoto.getPhotoId()) {
                         iterator.remove();
                         break;
                     }
                 }
-            } catch (Exception e){}
+            } catch (Exception e) {
+            }
         }
 
         if (mPhotoList.size() == 0) {
@@ -444,10 +446,12 @@ public class PhotoEditActivity extends CropImageActivity implements AdapterView.
 
     @Override
     public void setCropSaveSuccess(final File file) {
+        Log.i("setCropSaveSuccess","setCropSaveSuccess");
         Message message = mHanlder.obtainMessage();
         message.what = CROP_SUC;
         message.obj = file.getAbsolutePath();
         mHanlder.sendMessage(message);
+
     }
 
     @Override
@@ -468,12 +472,11 @@ public class PhotoEditActivity extends CropImageActivity implements AdapterView.
                 try {
                     String ext = FilenameUtils.getExtension(photoInfo.getPhotoPath());
                     File toFile;
-                    if (com.ez.gallery.GalleryFinal.getFunctionConfig().isCropReplaceSource()) {
+                    if (Picseler.getFunctionConfig().isCropReplaceSource()) {
                         toFile = new File(photoInfo.getPhotoPath());
                     } else {
                         toFile = new File(mEditPhotoCacheFile, Utils.getFileName(photoInfo.getPhotoPath()) + "_crop." + ext);
                     }
-
                     FileUtils.mkdirs(toFile.getParentFile());
                     onSaveClicked(toFile);//保存裁剪
                 } catch (Exception e) {
@@ -482,7 +485,6 @@ public class PhotoEditActivity extends CropImageActivity implements AdapterView.
                 resultAction();
             }
         } else if (id == R.id.iv_crop) {
-
             if (mPhotoList.size() > 0) {
                 PhotoInfo photoInfo = mPhotoList.get(mSelectIndex);
                 String ext = FilenameUtils.getExtension(photoInfo.getPhotoPath());
@@ -493,12 +495,11 @@ public class PhotoEditActivity extends CropImageActivity implements AdapterView.
                         setCropEnabled(false);
 
                         corpPageState(false);
-
+                        Log.i("mTvTitle","photo_edit");
                         mTvTitle.setText(R.string.photo_edit);
                     } else {
                         corpPageState(true);
                         setCropEnabled(true);
-
                         mTvTitle.setText(R.string.photo_crop);
                     }
                     mCropState = !mCropState;
@@ -507,14 +508,14 @@ public class PhotoEditActivity extends CropImageActivity implements AdapterView.
         } else if (id == R.id.iv_rotate) {
             rotatePhoto();
         } else if (id == R.id.iv_take_photo) {
-            if (com.ez.gallery.GalleryFinal.getFunctionConfig().isMutiSelect() && com.ez.gallery.GalleryFinal.getFunctionConfig().getMaxSize() == mSelectPhotoList.size()) {
+            if (Picseler.getFunctionConfig().isMutiSelect() && Picseler.getFunctionConfig().getMaxSize() == mSelectPhotoList.size()) {
                 toast(getString(R.string.select_max_tips));
             } else {
                 takePhotoAction();
             }
         } else if (id == R.id.iv_back) {
-            if (mCropState && !(mCropPhotoAction && !com.ez.gallery.GalleryFinal.getFunctionConfig().isRotate() && !com.ez.gallery.GalleryFinal.getFunctionConfig().isCamera())) {
-                if ((com.ez.gallery.GalleryFinal.getFunctionConfig().isForceCrop() && com.ez.gallery.GalleryFinal.getFunctionConfig().isForceCropEdit())) {
+            if (mCropState && !(mCropPhotoAction && !Picseler.getFunctionConfig().isRotate() && !Picseler.getFunctionConfig().isCamera())) {
+                if ((Picseler.getFunctionConfig().isForceCrop() && Picseler.getFunctionConfig().isForceCropEdit())) {
                     mIvCrop.performClick();
                     return;
                 }
@@ -532,9 +533,9 @@ public class PhotoEditActivity extends CropImageActivity implements AdapterView.
     }
 
     private void hasForceCrop() {
-        if(com.ez.gallery.GalleryFinal.getFunctionConfig().isForceCrop()) {
+        if (Picseler.getFunctionConfig().isForceCrop()) {
             mIvCrop.performClick();//进入裁剪状态
-            if(!com.ez.gallery.GalleryFinal.getFunctionConfig().isForceCropEdit()) {//强制裁剪后是否可以编辑
+            if (!Picseler.getFunctionConfig().isForceCropEdit()) {//强制裁剪后是否可以编辑
                 mIvCrop.setVisibility(View.GONE);
             }
         }
@@ -552,79 +553,77 @@ public class PhotoEditActivity extends CropImageActivity implements AdapterView.
                 return;
             }
             mRotating = true;
-            if (photoInfo != null) {
-                final PhotoTempModel photoTempModel = mPhotoTempMap.get(photoInfo.getPhotoId());
-                final String path = photoTempModel.getSourcePath();
+            final PhotoTempModel photoTempModel = mPhotoTempMap.get(photoInfo.getPhotoId());
+            final String path = photoTempModel.getSourcePath();
 
-                File file;
-                if (com.ez.gallery.GalleryFinal.getFunctionConfig().isRotateReplaceSource()) { //裁剪覆盖源文件
-                    file = new File(path);
-                } else {
-                    file = new File(mEditPhotoCacheFile, Utils.getFileName(path) + "_rotate." + ext);
+            File file;
+            if (Picseler.getFunctionConfig().isRotateReplaceSource()) { //裁剪覆盖源文件
+                file = new File(path);
+            } else {
+                file = new File(mEditPhotoCacheFile, Utils.getFileName(path) + "_rotate." + ext);
+            }
+
+            final File rotateFile = file;
+            new AsyncTask<Void, Void, Bitmap>() {
+                @Override
+                protected void onPreExecute() {
+                    super.onPreExecute();
+                    mTvEmptyView.setVisibility(View.VISIBLE);
+                    mProgressDialog = ProgressDialog.show(PhotoEditActivity.this, "", getString(R.string.waiting), true, false);
                 }
 
-                final File rotateFile = file;
-                new AsyncTask<Void, Void, Bitmap>() {
-                    @Override
-                    protected void onPreExecute() {
-                        super.onPreExecute();
-                        mTvEmptyView.setVisibility(View.VISIBLE);
-                        mProgressDialog = ProgressDialog.show(PhotoEditActivity.this, "", getString(R.string.waiting), true, false);
+                @Override
+                protected Bitmap doInBackground(Void... params) {
+                    int orientation;
+                    if (Picseler.getFunctionConfig().isRotateReplaceSource()) {
+                        orientation = 90;
+                    } else {
+                        orientation = photoTempModel.getOrientation() + 90;
                     }
-
-                    @Override
-                    protected Bitmap doInBackground(Void... params) {
-                        int orientation;
-                        if ( com.ez.gallery.GalleryFinal.getFunctionConfig().isRotateReplaceSource() ) {
-                            orientation = 90;
+                    Bitmap bitmap = Utils.rotateBitmap(path, orientation, mScreenWidth, mScreenHeight);
+                    if (bitmap != null) {
+                        Bitmap.CompressFormat format;
+                        if (ext.equalsIgnoreCase("jpg") || ext.equalsIgnoreCase("jpeg")) {
+                            format = Bitmap.CompressFormat.JPEG;
                         } else {
-                            orientation = photoTempModel.getOrientation() + 90;
+                            format = Bitmap.CompressFormat.PNG;
                         }
-                        Bitmap bitmap = Utils.rotateBitmap(path, orientation, mScreenWidth, mScreenHeight);
-                        if (bitmap != null) {
-                            Bitmap.CompressFormat format;
-                            if ( ext.equalsIgnoreCase("jpg") || ext.equalsIgnoreCase("jpeg") ) {
-                                format = Bitmap.CompressFormat.JPEG;
-                            } else {
-                                format = Bitmap.CompressFormat.PNG;
-                            }
-                            Utils.saveBitmap(bitmap, format, rotateFile);
-                        }
-                        return bitmap;
+                        Utils.saveBitmap(bitmap, format, rotateFile);
                     }
+                    return bitmap;
+                }
 
-                    @Override
-                    protected void onPostExecute(Bitmap bitmap) {
-                        super.onPostExecute(bitmap);
-                        if (mProgressDialog != null) {
-                            mProgressDialog.dismiss();
-                            mProgressDialog = null;
-                        }
-                        if (bitmap != null) {
-                            bitmap.recycle();
-                            
-                            mTvEmptyView.setVisibility(View.GONE);
-
-                            if ( !com.ez.gallery.GalleryFinal.getFunctionConfig().isRotateReplaceSource() ) {
-                                int orientation = photoTempModel.getOrientation() + 90;
-                                if (orientation == 360) {
-                                    orientation = 0;
-                                }
-                                photoTempModel.setOrientation(orientation);
-                            }
-
-                            Message message = mHanlder.obtainMessage();
-                            message.what = UPDATE_PATH;
-                            message.obj = rotateFile.getAbsolutePath();
-                            mHanlder.sendMessage(message);
-                        } else {
-                            mTvEmptyView.setText(R.string.no_photo);
-                        }
-                        loadImage(photoInfo);
-                        mRotating = false;
+                @Override
+                protected void onPostExecute(Bitmap bitmap) {
+                    super.onPostExecute(bitmap);
+                    if (mProgressDialog != null) {
+                        mProgressDialog.dismiss();
+                        mProgressDialog = null;
                     }
-                }.execute();
-            }
+                    if (bitmap != null) {
+                        bitmap.recycle();
+
+                        mTvEmptyView.setVisibility(View.GONE);
+
+                        if (!Picseler.getFunctionConfig().isRotateReplaceSource()) {
+                            int orientation = photoTempModel.getOrientation() + 90;
+                            if (orientation == 360) {
+                                orientation = 0;
+                            }
+                            photoTempModel.setOrientation(orientation);
+                        }
+
+                        Message message = mHanlder.obtainMessage();
+                        message.what = UPDATE_PATH;
+                        message.obj = rotateFile.getAbsolutePath();
+                        mHanlder.sendMessage(message);
+                    } else {
+                        mTvEmptyView.setText(R.string.no_photo);
+                    }
+                    loadImage(photoInfo);
+                    mRotating = false;
+                }
+            }.execute();
         }
     }
 
@@ -633,31 +632,31 @@ public class PhotoEditActivity extends CropImageActivity implements AdapterView.
             mIvSourcePhoto.setVisibility(View.GONE);
             mIvCropPhoto.setVisibility(View.VISIBLE);
             mLlGallery.setVisibility(View.GONE);
-            if (com.ez.gallery.GalleryFinal.getFunctionConfig().isCrop()) {
+            if (Picseler.getFunctionConfig().isCrop()) {
                 mIvCrop.setVisibility(View.VISIBLE);
             }
-            if (com.ez.gallery.GalleryFinal.getFunctionConfig().isRotate()) {
+            if (Picseler.getFunctionConfig().isRotate()) {
                 mIvRotate.setVisibility(View.GONE);
             }
 
-            if (com.ez.gallery.GalleryFinal.getFunctionConfig().isCamera()) {
+            if (Picseler.getFunctionConfig().isCamera()) {
                 mIvTakePhoto.setVisibility(View.GONE);
             }
         } else {
             mIvSourcePhoto.setVisibility(View.VISIBLE);
             mIvCropPhoto.setVisibility(View.GONE);
-            if (com.ez.gallery.GalleryFinal.getFunctionConfig().isCrop()) {
+            if (Picseler.getFunctionConfig().isCrop()) {
                 mIvCrop.setVisibility(View.VISIBLE);
             }
-            if (com.ez.gallery.GalleryFinal.getFunctionConfig().isRotate()) {
+            if (Picseler.getFunctionConfig().isRotate()) {
                 mIvRotate.setVisibility(View.VISIBLE);
             }
 
-            if (com.ez.gallery.GalleryFinal.getFunctionConfig().isCamera()) {
+            if (Picseler.getFunctionConfig().isCamera()) {
                 mIvTakePhoto.setVisibility(View.VISIBLE);
             }
 
-            if (com.ez.gallery.GalleryFinal.getFunctionConfig().isMutiSelect()) {
+            if (Picseler.getFunctionConfig().isMutiSelect()) {
                 mLlGallery.setVisibility(View.VISIBLE);
             }
         }
@@ -672,8 +671,8 @@ public class PhotoEditActivity extends CropImageActivity implements AdapterView.
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (mCropState && !(mCropPhotoAction && !com.ez.gallery.GalleryFinal.getFunctionConfig().isRotate() && !com.ez.gallery.GalleryFinal.getFunctionConfig().isCamera())) {
-                if ((com.ez.gallery.GalleryFinal.getFunctionConfig().isForceCrop() && com.ez.gallery.GalleryFinal.getFunctionConfig().isForceCropEdit())) {
+            if (mCropState && !(mCropPhotoAction && !Picseler.getFunctionConfig().isRotate() && !Picseler.getFunctionConfig().isCamera())) {
+                if ((Picseler.getFunctionConfig().isForceCrop() && Picseler.getFunctionConfig().isForceCropEdit())) {
                     mIvCrop.performClick();
                     return true;
                 }

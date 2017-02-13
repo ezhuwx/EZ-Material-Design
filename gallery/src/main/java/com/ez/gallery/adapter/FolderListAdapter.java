@@ -23,14 +23,17 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.ez.gallery.FunctionConfig;
-import com.ez.gallery.GalleryFinal;
+import com.ez.gallery.Picseler;
 import com.ez.gallery.R;
 import com.ez.gallery.model.PhotoFolderInfo;
 import com.ez.gallery.model.PhotoInfo;
 import com.ez.gallery.widget.GFImageView;
-import cn.finalteam.toolsfinal.adapter.ViewHolderAdapter;
+
 import java.util.List;
+
+import cn.finalteam.toolsfinal.adapter.ViewHolderAdapter;
 
 /**
  * Desction:
@@ -67,7 +70,7 @@ public class FolderListAdapter extends ViewHolderAdapter<FolderListAdapter.Folde
         }
         holder.mIvCover.setImageResource(R.drawable.ic_gf_default_photo);
         Drawable defaultDrawable = mActivity.getResources().getDrawable(R.drawable.ic_gf_default_photo);
-        GalleryFinal.getCoreConfig().getImageLoader().displayImage(mActivity, path, holder.mIvCover, defaultDrawable, 200, 200);
+        Picseler.getCoreConfig().getImageLoader().displayImage(mActivity, path, holder.mIvCover, defaultDrawable, 200, 200);
 
         holder.mTvFolderName.setText(photoFolderInfo.getFolderName());
         int size = 0;
@@ -75,13 +78,13 @@ public class FolderListAdapter extends ViewHolderAdapter<FolderListAdapter.Folde
             size = photoFolderInfo.getPhotoList().size();
         }
         holder.mTvPhotoCount.setText(mActivity.getString(R.string.folder_photo_size, size));
-        if (GalleryFinal.getCoreConfig().getAnimation() > 0) {
-            holder.mView.startAnimation(AnimationUtils.loadAnimation(mActivity, GalleryFinal.getCoreConfig().getAnimation()));
+        if (Picseler.getCoreConfig().getAnimation() > 0) {
+            holder.mView.startAnimation(AnimationUtils.loadAnimation(mActivity, Picseler.getCoreConfig().getAnimation()));
         }
-        holder.mIvFolderCheck.setImageResource(GalleryFinal.getGalleryTheme().getIconCheck());
+        holder.mIvFolderCheck.setImageResource(Picseler.getGalleryTheme().getIconCheck());
         if (mSelectFolder == photoFolderInfo || (mSelectFolder == null && position == 0)) {
             holder.mIvFolderCheck.setVisibility(View.VISIBLE);
-            holder.mIvFolderCheck.setColorFilter(GalleryFinal.getGalleryTheme().getCheckSelectedColor());
+            holder.mIvFolderCheck.setColorFilter(Picseler.getGalleryTheme().getCheckSelectedColor());
         } else {
             holder.mIvFolderCheck.setVisibility(View.GONE);
         }

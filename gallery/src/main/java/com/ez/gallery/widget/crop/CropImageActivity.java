@@ -28,17 +28,18 @@ import android.opengl.GLES10;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+
+import com.ez.gallery.Picseler;
+import com.ez.gallery.R;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.concurrent.CountDownLatch;
-
-import com.ez.gallery.GalleryFinal;
-import com.ez.gallery.R;
 
 import cn.finalteam.toolsfinal.io.FilenameUtils;
 
@@ -68,7 +69,7 @@ public abstract class CropImageActivity extends MonitoredActivity {
     private RotateBitmap rotateBitmap;
     private CropImageView imageView;
     private HighlightView cropView;
-
+    private boolean isStartCrop = false;
     private boolean cropEnabled;
 
     @Override
@@ -89,6 +90,9 @@ public abstract class CropImageActivity extends MonitoredActivity {
         if (square) {
             this.aspectX = 1;
             this.aspectY = 1;
+        }else {
+            this.aspectX = 1;
+            this.aspectY = maxY / maxX;
         }
         this.maxX = maxX;
         this.maxY = maxY;
@@ -125,9 +129,7 @@ public abstract class CropImageActivity extends MonitoredActivity {
                 BitmapFactory.Options option = new BitmapFactory.Options();
                 option.inSampleSize = sampleSize;
                 rotateBitmap = new RotateBitmap(BitmapFactory.decodeStream(is, null, option), exifRotation);
-            } catch (IOException e) {
-//                setCropSaveException(e);
-            } catch (OutOfMemoryError e) {
+            } catch (IOException | OutOfMemoryError e) {
 //                setCropSaveException(e);
             } finally {
                 CropUtil.closeSilently(is);
@@ -139,6 +141,7 @@ public abstract class CropImageActivity extends MonitoredActivity {
         //    return;
         //}
         if (rotateBitmap != null) {
+            Log.i("startCrop","setSourceUri");
             startCrop();
         }
     }
@@ -179,16 +182,22 @@ public abstract class CropImageActivity extends MonitoredActivity {
     }
 
     private void startCrop() {
+        if (isStartCrop){
+            return;
+        }
+        isStartCrop = true;
         if (isFinishing()) {
             return;
         }
         imageView.setImageRotateBitmapResetBase(rotateBitmap, true);
+        Log.i("startCrop","imageView");
         CropUtil.startBackgroundJob(this, null, getResources().getString(R.string.waiting),
                 new Runnable() {
                     public void run() {
                         final CountDownLatch latch = new CountDownLatch(1);
                         handler.post(new Runnable() {
                             public void run() {
+                                Log.i("startBackgroundJob","run");
                                 if (imageView.getScale() == 1F) {
                                     imageView.center();
                                 }
@@ -201,6 +210,7 @@ public abstract class CropImageActivity extends MonitoredActivity {
                             throw new RuntimeException(e);
                         }
                         new Cropper().crop();
+                        isStartCrop = false;
                     }
                 }, handler
         );
@@ -209,6 +219,7 @@ public abstract class CropImageActivity extends MonitoredActivity {
     public void setCropEnabled(boolean enabled) {
         this.cropEnabled = enabled;
         if ( enabled ) {
+            Log.i("startCrop","setCropEnabled");
             startCrop();
         }
     }
@@ -220,7 +231,7 @@ public abstract class CropImageActivity extends MonitoredActivity {
                 return;
             }
 
-            HighlightView hv = new HighlightView(imageView, GalleryFinal.getGalleryTheme().getCropControlColor());
+            HighlightView hv = new HighlightView(imageView, Picseler.getGalleryTheme().getCropControlColor());
             final int width = rotateBitmap.getWidth();
             final int height = rotateBitmap.getHeight();
 
@@ -310,6 +321,7 @@ public abstract class CropImageActivity extends MonitoredActivity {
             CropUtil.startBackgroundJob(this, null, getResources().getString(R.string.saving),
                     new Runnable() {
                         public void run() {
+                            Log.i("saveImage","saveOutput");
                             saveOutput(b, saveFile);
                         }
                     }, handler
@@ -362,6 +374,7 @@ public abstract class CropImageActivity extends MonitoredActivity {
         } finally {
             CropUtil.closeSilently(is);
         }
+        Log.i("decodeRegionCrop","decodeRegionCrop");
         return croppedImage;
     }
 
@@ -385,7 +398,7 @@ public abstract class CropImageActivity extends MonitoredActivity {
                         format = Bitmap.CompressFormat.JPEG;
                         croppedImage.compress(format, 90, outputStream);
                     } else {
-                        format = Bitmap.CompressFormat.PNG;
+                        format = Bitmap.CompressFormat.JPEG;
                         croppedImage.compress(format, 100, outputStream);
                     }
                 }
@@ -399,13 +412,15 @@ public abstract class CropImageActivity extends MonitoredActivity {
                     CropUtil.getFromMediaUri(this, getContentResolver(), sourceUri),
                     CropUtil.getFromMediaUri(this, getContentResolver(), Uri.fromFile(saveFile))
             );
-
+            Log.i("setCropSaveSuccess","saveFile");
             setCropSaveSuccess(saveFile);
         }
 
         final Bitmap b = croppedImage;
+        Log.i("imageView","croppedImage" + b);
         handler.post(new Runnable() {
             public void run() {
+                Log.i("imageView","run");
                 imageView.clear();
                 b.recycle();
             }

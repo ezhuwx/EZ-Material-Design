@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import java.util.HashMap;
 import java.util.List;
 
-import com.ez.gallery.GalleryFinal;
+import com.ez.gallery.Picseler;
 import com.ez.gallery.R;
 import com.ez.gallery.model.PhotoInfo;
 import com.ez.gallery.widget.zoonview.PhotoView;
@@ -49,11 +49,11 @@ public class PhotoPreviewAdapter extends ViewHolderRecyclingPagerAdapter<PhotoPr
         }
         holder.mIvImage.setImageResource(R.drawable.ic_gf_default_photo);
         Drawable defaultDrawable = mActivity.getResources().getDrawable(R.drawable.ic_gf_default_photo);
-        GalleryFinal.getCoreConfig().getImageLoader().displayImage(mActivity, path, holder.mIvImage, defaultDrawable, mDisplayMetrics.widthPixels/2, mDisplayMetrics.heightPixels/2);
+        Picseler.getCoreConfig().getImageLoader().displayImage(mActivity, path, holder.mIvImage, defaultDrawable, mDisplayMetrics.widthPixels/2, mDisplayMetrics.heightPixels/2);
         if (!mUnSelectList.containsValue(photoInfo)) {
-            holder.mIvCheck.setBackgroundColor(GalleryFinal.getGalleryTheme().getCheckSelectedColor());
+            holder.mIvCheck.setBackgroundColor(Picseler.getGalleryTheme().getCheckSelectedColor());
         } else {
-            holder.mIvCheck.setBackgroundColor(GalleryFinal.getGalleryTheme().getCheckNornalColor());
+            holder.mIvCheck.setBackgroundColor(Picseler.getGalleryTheme().getCheckNornalColor());
         }
 
         holder.mIvCheck.setOnClickListener(new View.OnClickListener() {
@@ -61,10 +61,10 @@ public class PhotoPreviewAdapter extends ViewHolderRecyclingPagerAdapter<PhotoPr
             public void onClick(View view) {
                 if (mUnSelectList.containsValue(photoInfo)) {
                     mUnSelectList.remove(position);
-                    holder.mIvCheck.setBackgroundColor(GalleryFinal.getGalleryTheme().getCheckSelectedColor());
+                    holder.mIvCheck.setBackgroundColor(Picseler.getGalleryTheme().getCheckSelectedColor());
                 } else {
                     mUnSelectList.put(position, photoInfo);
-                    holder.mIvCheck.setBackgroundColor(GalleryFinal.getGalleryTheme().getCheckNornalColor());
+                    holder.mIvCheck.setBackgroundColor(Picseler.getGalleryTheme().getCheckNornalColor());
                 }
             }
         });

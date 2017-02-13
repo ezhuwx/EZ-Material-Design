@@ -121,9 +121,9 @@ public abstract class PhotoBaseActivity extends Activity implements EasyPermissi
             return;
         }
 
-        File takePhotoFolder = null;
+        File takePhotoFolder;
         if (StringUtils.isEmpty(mPhotoTargetFolder)) {
-            takePhotoFolder = com.ez.gallery.GalleryFinal.getCoreConfig().getTakePhotoFolder();
+            takePhotoFolder = Picseler.getCoreConfig().getTakePhotoFolder();
         } else {
             takePhotoFolder = new File(mPhotoTargetFolder);
         }
@@ -132,12 +132,10 @@ public abstract class PhotoBaseActivity extends Activity implements EasyPermissi
 
         if (suc) {
             mTakePhotoUri = FileProvider.getUriForFile(this, "com.ez.file.provider", toFile);//通过FileProvider创建一个content类型的Uri
-            mTakePhotoUri = Uri.fromFile(toFile);
-            Intent intent = new Intent();
             Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             captureIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, mTakePhotoUri);
-            startActivityForResult(captureIntent, com.ez.gallery.GalleryFinal.TAKE_REQUEST_CODE);
+            startActivityForResult(captureIntent, Picseler.TAKE_REQUEST_CODE);
         } else {
             takePhotoFailure();
         }
@@ -145,7 +143,7 @@ public abstract class PhotoBaseActivity extends Activity implements EasyPermissi
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if ( requestCode == com.ez.gallery.GalleryFinal.TAKE_REQUEST_CODE ) {
+        if ( requestCode == Picseler.TAKE_REQUEST_CODE ) {
             if (resultCode == RESULT_OK && mTakePhotoUri != null) {
                 final String path = mTakePhotoUri.getPath();
                 if (new File(path).exists()) {
@@ -182,8 +180,8 @@ public abstract class PhotoBaseActivity extends Activity implements EasyPermissi
     }
 
     protected void resultData(ArrayList<PhotoInfo> photoList) {
-        com.ez.gallery.GalleryFinal.OnHanlderResultCallback callback = com.ez.gallery.GalleryFinal.getCallback();
-        int requestCode = com.ez.gallery.GalleryFinal.getRequestCode();
+        Picseler.OnHanlderResultCallback callback = Picseler.getCallback();
+        int requestCode = Picseler.getRequestCode();
         if (callback != null) {
             if ( photoList != null && photoList.size() > 0 ) {
                 callback.onHanlderSuccess(requestCode, photoList);
@@ -195,8 +193,8 @@ public abstract class PhotoBaseActivity extends Activity implements EasyPermissi
     }
 
     protected void resultFailureDelayed(String errormsg, boolean delayFinish) {
-        com.ez.gallery.GalleryFinal.OnHanlderResultCallback callback = com.ez.gallery.GalleryFinal.getCallback();
-        int requestCode = com.ez.gallery.GalleryFinal.getRequestCode();
+        Picseler.OnHanlderResultCallback callback = Picseler.getCallback();
+        int requestCode = Picseler.getRequestCode();
         if ( callback != null ) {
             callback.onHanlderFailure(requestCode, errormsg);
         }
@@ -208,8 +206,8 @@ public abstract class PhotoBaseActivity extends Activity implements EasyPermissi
     }
 
     protected void resultFailure(String errormsg, boolean delayFinish) {
-        com.ez.gallery.GalleryFinal.OnHanlderResultCallback callback = com.ez.gallery.GalleryFinal.getCallback();
-        int requestCode = com.ez.gallery.GalleryFinal.getRequestCode();
+        Picseler.OnHanlderResultCallback callback = Picseler.getCallback();
+        int requestCode = Picseler.getRequestCode();
         if ( callback != null ) {
             callback.onHanlderFailure(requestCode, errormsg);
         }

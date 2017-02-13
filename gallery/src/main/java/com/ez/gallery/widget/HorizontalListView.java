@@ -40,6 +40,9 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.Scroller;
+
+import com.ez.gallery.R;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -288,7 +291,7 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
             Bundle bundle = (Bundle) state;
 
             // Restore our state from the bundle
-            mRestoreX = Integer.valueOf((bundle.getInt(BUNDLE_ID_CURRENT_X)));
+            mRestoreX = (bundle.getInt(BUNDLE_ID_CURRENT_X));
 
             // Restore out parent's state from the bundle
             super.onRestoreInstanceState(bundle.getParcelable(BUNDLE_ID_PARENT_STATE));
@@ -396,7 +399,9 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
             mAdapter.registerDataSetObserver(mAdapterDataObserver);
         }
 
-        initializeRecycledViewCache(mAdapter.getViewTypeCount());
+        if (mAdapter != null) {
+            initializeRecycledViewCache(mAdapter.getViewTypeCount());
+        }
         reset();
     }
 

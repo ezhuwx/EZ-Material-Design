@@ -27,6 +27,9 @@ import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+
+import com.ez.gallery.Picseler;
+
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileDescriptor;
@@ -92,7 +95,7 @@ class CropUtil {
         if (SCHEME_FILE.equals(uri.getScheme())) {
             return new File(uri.getPath());
         } else if (SCHEME_CONTENT.equals(uri.getScheme())) {
-            final String[] filePathColumn = { MediaStore.MediaColumns.DATA, MediaStore.MediaColumns.DISPLAY_NAME };
+            final String[] filePathColumn = {MediaStore.MediaColumns.DATA, MediaStore.MediaColumns.DISPLAY_NAME};
             Cursor cursor = null;
             try {
                 cursor = resolver.query(uri, filePathColumn, null, null, null);
@@ -134,16 +137,21 @@ class CropUtil {
         FileOutputStream output = null;
         try {
             ParcelFileDescriptor pfd = resolver.openFileDescriptor(uri, "r");
-            FileDescriptor fd = pfd.getFileDescriptor();
-            input = new FileInputStream(fd);
+            FileDescriptor fd = null;
+            if (pfd != null) {
+                fd = pfd.getFileDescriptor();
+                input = new FileInputStream(fd);
+            }
 
             String tempFilename = getTempFilename(context);
             output = new FileOutputStream(tempFilename);
 
             int read;
             byte[] bytes = new byte[4096];
-            while ((read = input.read(bytes)) != -1) {
-                output.write(bytes, 0, read);
+            if (input != null) {
+                while ((read = input.read(bytes)) != -1) {
+                    output.write(bytes, 0, read);
+                }
             }
             return new File(tempFilename);
         } catch (IOException ignored) {
@@ -156,11 +164,14 @@ class CropUtil {
     }
 
     public static void startBackgroundJob(MonitoredActivity activity,
-            String title, String message, Runnable job, Handler handler) {
+                                          String title, String message, Runnable job, Handler handler) {
         // Make the progress dialog uncancelable, so that we can guarantee
         // the thread will be done before the activity getting destroyed
-        ProgressDialog dialog = ProgressDialog.show(
-                activity, title, message, true, false);
+        ProgressDialog dialog = null;
+        if (Picseler.getGalleryTheme().isDialogShow()) {
+            dialog = ProgressDialog.show(
+                    activity, title, message, true, false);
+        }
         new Thread(new BackgroundJob(activity, job, dialog, handler)).start();
     }
 
@@ -173,7 +184,7 @@ class CropUtil {
         private final Runnable cleanupRunner = new Runnable() {
             public void run() {
                 activity.removeLifeCycleListener(BackgroundJob.this);
-                if (dialog.getWindow() != null) dialog.dismiss();
+                if (dialog!= null && dialog.getWindow() != null) dialog.dismiss();
             }
         };
 
@@ -204,11 +215,13 @@ class CropUtil {
 
         @Override
         public void onActivityStopped(MonitoredActivity activity) {
+            if (dialog != null)
             dialog.hide();
         }
 
         @Override
         public void onActivityStarted(MonitoredActivity activity) {
+            if (dialog != null)
             dialog.show();
         }
     }

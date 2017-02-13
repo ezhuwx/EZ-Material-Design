@@ -198,6 +198,7 @@ public class FunctionConfig implements Cloneable{
          */
         public Builder setForceCrop(boolean forceCrop) {
             this.forceCrop = forceCrop;
+            this.crop = forceCrop;
             return this;
         }
 

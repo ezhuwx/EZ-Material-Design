@@ -20,14 +20,16 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import com.ez.gallery.GalleryFinal;
+
 import com.ez.gallery.PhotoEditActivity;
+import com.ez.gallery.Picseler;
 import com.ez.gallery.R;
 import com.ez.gallery.model.PhotoInfo;
 import com.ez.gallery.widget.GFImageView;
-import cn.finalteam.toolsfinal.adapter.ViewHolderAdapter;
 
 import java.util.List;
+
+import cn.finalteam.toolsfinal.adapter.ViewHolderAdapter;
 
 /**
  * Desction:
@@ -59,10 +61,10 @@ public class PhotoEditListAdapter extends ViewHolderAdapter<PhotoEditListAdapter
             path = photoInfo.getPhotoPath();
         }
         holder.mIvPhoto.setImageResource(R.drawable.ic_gf_default_photo);
-        holder.mIvDelete.setImageResource(GalleryFinal.getGalleryTheme().getIconDelete());
+        holder.mIvDelete.setImageResource(Picseler.getGalleryTheme().getIconDelete());
         Drawable defaultDrawable = mActivity.getResources().getDrawable(R.drawable.ic_gf_default_photo);
-        GalleryFinal.getCoreConfig().getImageLoader().displayImage(mActivity, path, holder.mIvPhoto, defaultDrawable, 100, 100);
-        if (!GalleryFinal.getFunctionConfig().isMutiSelect()) {
+        Picseler.getCoreConfig().getImageLoader().displayImage(mActivity, path, holder.mIvPhoto, defaultDrawable, 100, 100);
+        if (!Picseler.getFunctionConfig().isMutiSelect()) {
             holder.mIvDelete.setVisibility(View.GONE);
         } else {
             holder.mIvDelete.setVisibility(View.VISIBLE);

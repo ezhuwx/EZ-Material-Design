@@ -90,7 +90,8 @@ public class ThemeConfig implements Serializable{
     private int iconCheck;
     private int iconFab;
     private int iconPreview;
-
+    private boolean isDarkStatus;
+    private boolean isDialogShow;
     private Drawable bgEditTexture;
     private Drawable bgPreveiw;
 
@@ -115,6 +116,8 @@ public class ThemeConfig implements Serializable{
         this.bgEditTexture = builder.bgEditTexture;
         this.iconPreview = builder.iconPreview;
         this.bgPreveiw = builder.bgPreveiw;
+        this.isDarkStatus = builder.isDarkStatus;
+        this.isDialogShow = builder.isDialogShow;
     }
 
     public static class Builder {
@@ -137,7 +140,8 @@ public class ThemeConfig implements Serializable{
         private int iconCheck = R.drawable.ic_folder_check;
         private int iconFab = R.drawable.ic_folder_check;
         private int iconPreview = R.drawable.ic_gf_preview;
-
+        private boolean isDarkStatus = false;
+        private boolean isDialogShow = true;
         private Drawable bgEditTexture;
         private Drawable bgPreveiw;
 
@@ -198,6 +202,16 @@ public class ThemeConfig implements Serializable{
 
         public Builder setIconRotate(int iconRotate) {
             this.iconRotate = iconRotate;
+            return this;
+        }
+
+        public Builder setDarkStatus(boolean isDarkStatus){
+            this.isDarkStatus = isDarkStatus;
+            return this;
+        }
+
+        public Builder setDialogShow(boolean dialogShow) {
+            isDialogShow = dialogShow;
             return this;
         }
 
@@ -318,6 +332,10 @@ public class ThemeConfig implements Serializable{
         return iconPreview;
     }
 
+    public boolean isDarkStatus(){return isDarkStatus;}
+    public boolean isDialogShow() {
+        return isDialogShow;
+    }
     public Drawable getPreviewBg() {
         return bgPreveiw;
     }

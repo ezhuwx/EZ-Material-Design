@@ -38,7 +38,9 @@ import android.support.annotation.DrawableRes;
 import android.util.AttributeSet;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
 import com.ez.gallery.R;
+
 /**
  * Desction:
  * Author:pengjianbo

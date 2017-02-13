@@ -21,7 +21,7 @@ import android.widget.Toast;
 import com.baoyz.actionsheet.ActionSheet;
 import com.ez.gallery.CoreConfig;
 import com.ez.gallery.FunctionConfig;
-import com.ez.gallery.GalleryFinal;
+import com.ez.gallery.Picseler;
 import com.ez.gallery.PauseOnScrollListener;
 import com.ez.gallery.ThemeConfig;
 import com.ez.gallery.model.PhotoInfo;
@@ -241,6 +241,7 @@ public class MainActivity extends AppCompatActivity {
                             .setIconRotate(R.mipmap.ic_action_repeat)
                             .setIconCrop(R.mipmap.ic_action_crop)
                             .setIconCamera(R.mipmap.ic_action_camera)
+                            .setDarkStatus(true)
                             .build();
                     themeConfig = theme;
                 }
@@ -332,7 +333,7 @@ public class MainActivity extends AppCompatActivity {
                         .setPauseOnScrollListener(pauseOnScrollListener)
                         .setNoAnimcation(mCbNoAnimation.isChecked())
                         .build();
-                GalleryFinal.init(coreConfig);
+                Picseler.init(coreConfig);
 
                 ActionSheet.createBuilder(MainActivity.this, getSupportFragmentManager())
                         .setCancelButtonTitle("取消(Cancel)")
@@ -350,24 +351,24 @@ public class MainActivity extends AppCompatActivity {
                                 switch (index) {
                                     case 0:
                                         if (mutiSelect) {
-                                            GalleryFinal.openGalleryMuti(REQUEST_CODE_GALLERY, functionConfig, mOnHanlderResultCallback);
+                                            Picseler.openGalleryMuti(REQUEST_CODE_GALLERY, functionConfig, mOnHanlderResultCallback);
                                         } else {
-                                            GalleryFinal.openGallerySingle(REQUEST_CODE_GALLERY, functionConfig, mOnHanlderResultCallback);
+                                            Picseler.openGallerySingle(REQUEST_CODE_GALLERY, functionConfig, mOnHanlderResultCallback);
                                         }
                                         break;
                                     case 1:
-                                        GalleryFinal.openCamera(REQUEST_CODE_CAMERA, functionConfig, mOnHanlderResultCallback);
+                                        Picseler.openCamera(REQUEST_CODE_CAMERA, functionConfig, mOnHanlderResultCallback);
                                         break;
                                     case 2:
                                         if (new File(path).exists()) {
-                                            GalleryFinal.openCrop(REQUEST_CODE_CROP, functionConfig, path, mOnHanlderResultCallback);
+                                            Picseler.openCrop(REQUEST_CODE_CROP, functionConfig, path, mOnHanlderResultCallback);
                                         } else {
                                             Toast.makeText(MainActivity.this, "图片不存在", Toast.LENGTH_SHORT).show();
                                         }
                                         break;
                                     case 3:
                                         if (new File(path).exists()) {
-                                            GalleryFinal.openEdit(REQUEST_CODE_EDIT, functionConfig, path, mOnHanlderResultCallback);
+                                            Picseler.openEdit(REQUEST_CODE_EDIT, functionConfig, path, mOnHanlderResultCallback);
                                         } else {
                                             Toast.makeText(MainActivity.this, "图片不存在", Toast.LENGTH_SHORT).show();
                                         }
@@ -385,7 +386,7 @@ public class MainActivity extends AppCompatActivity {
         x.Ext.init(getApplication());
     }
 
-    private GalleryFinal.OnHanlderResultCallback mOnHanlderResultCallback = new GalleryFinal.OnHanlderResultCallback() {
+    private Picseler.OnHanlderResultCallback mOnHanlderResultCallback = new Picseler.OnHanlderResultCallback() {
         @Override
         public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
             if (resultList != null) {
@@ -448,7 +449,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
         if (itemId == R.id.action_clean_cache) {
-            GalleryFinal.cleanCacheFile();
+            Picseler.cleanCacheFile();
             Toast.makeText(this, "清理成功(Clear success)", Toast.LENGTH_SHORT).show();
         } else {
             //startActivity(new Intent(this, FuncationActivity.class));

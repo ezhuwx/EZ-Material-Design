@@ -1,14 +1,26 @@
 package com.ez.gallery.utils;
 
+import android.os.Environment;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
+
 public class BuildProperties {
  
-    private final Properties properties;
+    private Properties properties;
  
     private BuildProperties() throws IOException {
         properties = new Properties();
-        properties.load(new FileInputStream(new File(Environment.getRootDirectory(), build.prop)));
+        properties.load(new FileInputStream(new File(Environment.getRootDirectory(), "build.prop")));
     }
- 
+
+
     public boolean containsKey(final Object key) {
         return properties.containsKey(key);
     }
@@ -17,7 +29,7 @@ public class BuildProperties {
         return properties.containsValue(value);
     }
  
-    public Set<entry<cke:object, object="">> entrySet() {
+    public Set<Map.Entry<Object, Object>> entrySet() {
         return properties.entrySet();
     }
  
@@ -33,11 +45,11 @@ public class BuildProperties {
         return properties.isEmpty();
     }
  
-    public Enumeration<object> keys() {
+    public Enumeration<Object> keys() {
         return properties.keys();
     }
  
-    public Set<object> keySet() {
+    public Set<Object> keySet() {
         return properties.keySet();
     }
  
@@ -45,7 +57,7 @@ public class BuildProperties {
         return properties.size();
     }
  
-    public Collection<object> values() {
+    public Collection<Object> values() {
         return properties.values();
     }
  

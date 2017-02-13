@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.ez.gallery.GalleryFinal;
+import com.ez.gallery.Picseler;
 import com.ez.gallery.R;
 import com.ez.gallery.model.PhotoFolderInfo;
 import com.ez.gallery.model.PhotoInfo;
@@ -62,8 +62,8 @@ public class PhotoTools {
         allPhotoFolderInfo.setFolderName(context.getResources().getString(R.string.all_photo));
         allPhotoFolderInfo.setPhotoList(new ArrayList<PhotoInfo>());
         allPhotoFolderList.add(0, allPhotoFolderInfo);
-        List<String> selectedList = GalleryFinal.getFunctionConfig().getSelectedList();
-        List<String> filterList = GalleryFinal.getFunctionConfig().getFilterList();
+        List<String> selectedList = Picseler.getFunctionConfig().getSelectedList();
+        List<String> filterList = Picseler.getFunctionConfig().getFilterList();
         try {
             cursor = MediaStore.Images.Media.query(context.getContentResolver(), MediaStore.Images.Media.EXTERNAL_CONTENT_URI
                     , projectionPhotos, "", null, MediaStore.Images.Media.DATE_TAKEN + " DESC");
