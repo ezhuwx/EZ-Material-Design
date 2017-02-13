@@ -21,7 +21,6 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'cn.finalteam:toolsfinal:1.1.4'
-    compile project(':ucrop')
 }
 
 apply from: "../bintray.gradle"
