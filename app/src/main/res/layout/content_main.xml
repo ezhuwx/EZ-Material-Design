@@ -459,7 +459,7 @@
         android:textStyle="bold"
         />
 
-    <cn.finalteam.galleryfinal.widget.HorizontalListView
+    <com.ez.gallery.widget.HorizontalListView
         android:id="@+id/lv_photo"
         android:layout_width="match_parent"
         android:layout_height="100dp"
