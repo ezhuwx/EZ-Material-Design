@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package cn.finalteam.galleryfinal.ucrop.view;
+package com.ez.gallery.ucrop.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -22,7 +22,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 
-import cn.finalteam.galleryfinal.ucrop.util.RotationGestureDetector;
+import com.ez.gallery.ucrop.util.RotationGestureDetector;
 
 /**
  * Created by Oleksii Shliama (https://github.com/shliama).

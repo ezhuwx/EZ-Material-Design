@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package cn.finalteam.galleryfinal.ucrop.view;
+package com.ez.gallery.ucrop.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -27,12 +27,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 
+import com.ez.gallery.ucrop.R;
+import com.ez.gallery.ucrop.util.CubicEasing;
+import com.ez.gallery.ucrop.util.RectUtils;
+
 import java.lang.ref.WeakReference;
 import java.util.Arrays;
-
-import cn.finalteam.galleryfinal.ucrop.R;
-import cn.finalteam.galleryfinal.ucrop.util.CubicEasing;
-import cn.finalteam.galleryfinal.ucrop.util.RectUtils;
 
 /**
  * Created by Oleksii Shliama (https://github.com/shliama).

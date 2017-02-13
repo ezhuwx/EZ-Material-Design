@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package cn.finalteam.galleryfinal.ucrop.view.widget;
+package com.ez.gallery.ucrop.view.widget;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -32,8 +32,8 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.widget.TextView;
 
-import cn.finalteam.galleryfinal.ucrop.R;
-import cn.finalteam.galleryfinal.ucrop.view.CropImageView;
+import com.ez.gallery.ucrop.R;
+import com.ez.gallery.ucrop.view.CropImageView;
 
 /**
  * Created by Oleksii Shliama (https://github.com/shliama).

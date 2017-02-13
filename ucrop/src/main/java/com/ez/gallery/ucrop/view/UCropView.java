@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package cn.finalteam.galleryfinal.ucrop.view;
+package com.ez.gallery.ucrop.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -23,7 +23,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
 
-import cn.finalteam.galleryfinal.ucrop.R;
+import com.ez.gallery.ucrop.R;
 
 public class UCropView extends FrameLayout {
 

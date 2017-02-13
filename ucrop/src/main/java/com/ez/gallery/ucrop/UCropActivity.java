@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package cn.finalteam.galleryfinal.ucrop;
+package com.ez.gallery.ucrop;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
@@ -48,15 +48,15 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.finalteam.galleryfinal.ucrop.util.BitmapLoadUtils;
-import cn.finalteam.galleryfinal.ucrop.util.SelectedStateListDrawable;
-import cn.finalteam.galleryfinal.ucrop.view.CropImageView;
-import cn.finalteam.galleryfinal.ucrop.view.GestureCropImageView;
-import cn.finalteam.galleryfinal.ucrop.view.OverlayView;
-import cn.finalteam.galleryfinal.ucrop.view.TransformImageView;
-import cn.finalteam.galleryfinal.ucrop.view.UCropView;
-import cn.finalteam.galleryfinal.ucrop.view.widget.AspectRatioTextView;
-import cn.finalteam.galleryfinal.ucrop.view.widget.HorizontalProgressWheelView;
+import com.ez.gallery.ucrop.util.BitmapLoadUtils;
+import com.ez.gallery.ucrop.util.SelectedStateListDrawable;
+import com.ez.gallery.ucrop.view.CropImageView;
+import com.ez.gallery.ucrop.view.GestureCropImageView;
+import com.ez.gallery.ucrop.view.OverlayView;
+import com.ez.gallery.ucrop.view.TransformImageView;
+import com.ez.gallery.ucrop.view.UCropView;
+import com.ez.gallery.ucrop.view.widget.AspectRatioTextView;
+import com.ez.gallery.ucrop.view.widget.HorizontalProgressWheelView;
 
 /**
  * Created by Oleksii Shliama (https://github.com/shliama).
@@ -198,7 +198,7 @@ public class UCropActivity extends AppCompatActivity {
     }
 
     /**
-     * This method extracts {@link cn.finalteam.galleryfinal.ucrop.UCrop.Options #optionsBundle} from incoming intent
+     * This method extracts {@link com.ez.gallery.ucrop.UCrop.Options #optionsBundle} from incoming intent
      * and setups Activity, {@link OverlayView} and {@link CropImageView} properly.
      */
     @SuppressWarnings("deprecation")

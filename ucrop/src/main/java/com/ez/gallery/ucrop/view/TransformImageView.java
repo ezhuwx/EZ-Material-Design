@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package cn.finalteam.galleryfinal.ucrop.view;
+package com.ez.gallery.ucrop.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -33,9 +33,9 @@ import android.view.Display;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
-import cn.finalteam.galleryfinal.ucrop.util.BitmapLoadUtils;
-import cn.finalteam.galleryfinal.ucrop.util.FastBitmapDrawable;
-import cn.finalteam.galleryfinal.ucrop.util.RectUtils;
+import com.ez.gallery.ucrop.util.BitmapLoadUtils;
+import com.ez.gallery.ucrop.util.FastBitmapDrawable;
+import com.ez.gallery.ucrop.util.RectUtils;
 
 /**
  * Created by Oleksii Shliama (https://github.com/shliama).

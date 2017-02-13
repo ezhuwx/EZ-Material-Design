@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package cn.finalteam.galleryfinal.ucrop.util;
+package com.ez.gallery.ucrop.util;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;

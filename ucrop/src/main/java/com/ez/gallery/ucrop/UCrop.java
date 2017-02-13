@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package cn.finalteam.galleryfinal.ucrop;
+package com.ez.gallery.ucrop;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -30,6 +30,8 @@ import android.support.annotation.FloatRange;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+
+import com.ez.gallery.ucrop.UCropActivity;
 
 /**
  * Created by Oleksii Shliama (https://github.com/shliama).

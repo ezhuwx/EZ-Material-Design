@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package cn.finalteam.galleryfinal.ucrop.util;
+package com.ez.gallery.ucrop.util;
 
 import android.content.Context;
 import android.graphics.Bitmap;

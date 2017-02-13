@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package cn.finalteam.galleryfinal.ucrop.view;
+package com.ez.gallery.ucrop.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -30,7 +30,7 @@ import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.View;
 
-import cn.finalteam.galleryfinal.ucrop.R;
+import com.ez.gallery.ucrop.R;
 
 /**
  * Created by Oleksii Shliama (https://github.com/shliama).
