@@ -37,6 +37,7 @@ import com.ez.gallery.model.PhotoInfo;
 import com.ez.gallery.model.PhotoTempModel;
 import com.ez.gallery.utils.RecycleViewBitmapUtils;
 import com.ez.gallery.utils.Utils;
+import com.ez.gallery.utils.WindowsFitUtils;
 import com.ez.gallery.widget.FloatingActionButton;
 import com.ez.gallery.widget.HorizontalListView;
 import com.ez.gallery.widget.crop.CropImageActivity;
@@ -102,6 +103,7 @@ public class PhotoEditActivity extends CropImageActivity implements AdapterView.
 
     private boolean mCropPhotoAction;//裁剪图片动作
     private boolean mEditPhotoAction;//编辑图片动作
+
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -282,6 +284,9 @@ public class PhotoEditActivity extends CropImageActivity implements AdapterView.
     }
 
     private void setTheme() {
+        if(Picseler.getGalleryTheme().isDarkStatus()){
+            WindowsFitUtils.setWindowsFitColor(this);
+        }
         mIvBack.setImageResource(Picseler.getGalleryTheme().getIconBack());
         if (Picseler.getGalleryTheme().getIconBack() == R.drawable.ic_gf_back) {
             mIvBack.setColorFilter(Picseler.getGalleryTheme().getTitleBarIconColor());
