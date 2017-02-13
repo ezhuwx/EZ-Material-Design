@@ -258,7 +258,9 @@ public class PhotoEditActivity extends CropImageActivity implements AdapterView.
                 mLlGallery.setVisibility(View.GONE);
             }
 
-            initCrop(mIvCropPhoto, Picseler.getFunctionConfig().isCropSquare(), Picseler.getFunctionConfig().getCropWidth(), Picseler.getFunctionConfig().getCropHeight());
+            initCrop(mIvCropPhoto, Picseler.getFunctionConfig().isCropSquare(),
+                    Picseler.getFunctionConfig().isCrop4_3(),Picseler.getFunctionConfig().isCrop16_9(),
+                    Picseler.getFunctionConfig().getCropWidth(), Picseler.getFunctionConfig().getCropHeight());
             if (mPhotoList.size() > 0 && !mTakePhotoAction) {
                 loadImage(mPhotoList.get(0));
             }

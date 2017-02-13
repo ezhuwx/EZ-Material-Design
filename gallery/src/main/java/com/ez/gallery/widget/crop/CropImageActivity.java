@@ -86,13 +86,16 @@ public abstract class CropImageActivity extends MonitoredActivity {
         }
     }
 
-    public void initCrop(CropImageView imageView, boolean square, int maxX, int maxY) {
+    public void initCrop(CropImageView imageView, boolean square,boolean crop_4_3,boolean crop_16_9, int maxX, int maxY) {
         if (square) {
             this.aspectX = 1;
             this.aspectY = 1;
-        }else {
-            this.aspectX = 1;
-            this.aspectY = maxY / maxX;
+        }else if (crop_4_3){
+            this.aspectX = 4;
+            this.aspectY = 3;
+        }else if (crop_16_9){
+            this.aspectX = 16;
+            this.aspectY = 9;
         }
         this.maxX = maxX;
         this.maxY = maxY;

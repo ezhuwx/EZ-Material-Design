@@ -39,6 +39,8 @@ public class FunctionConfig implements Cloneable{
     private int cropWidth;
     private int cropHeight;
     private boolean cropSquare;
+    private boolean crop4_3;
+    private boolean crop16_9;
     private boolean rotateReplaceSource;//旋转是否覆盖源文件
     private boolean cropReplaceSource;//裁剪是否覆盖源文件
     private boolean forceCrop;//强制裁剪
@@ -57,6 +59,8 @@ public class FunctionConfig implements Cloneable{
         this.cropWidth = builder.cropWidth;
         this.cropHeight = builder.cropHeight;
         this.cropSquare = builder.cropSquare;
+        this.crop4_3 = builder.crop4_3;
+        this.crop16_9 = builder.crop16_9;
         this.selectedList = builder.selectedList;
         this.filterList = builder.filterList;
         this.rotateReplaceSource = builder.rotateReplaceSource;
@@ -76,6 +80,8 @@ public class FunctionConfig implements Cloneable{
         private int cropWidth;
         private int cropHeight;
         private boolean cropSquare;
+        private boolean crop4_3;
+        private boolean crop16_9;
         private boolean rotateReplaceSource;//旋转是否覆盖源文件
         private boolean cropReplaceSource;//裁剪是否覆盖源文件
         private ArrayList<String> selectedList;
@@ -83,6 +89,7 @@ public class FunctionConfig implements Cloneable{
         private boolean forceCrop;//强制裁剪
         private boolean forceCropEdit;//强制裁剪后是否可对图片编辑，默认不可以
         private boolean preview;//预览
+
 
         protected Builder setMutiSelect(boolean mutiSelect) {
             this.mutiSelect = mutiSelect;
@@ -127,6 +134,15 @@ public class FunctionConfig implements Cloneable{
         public Builder setCropSquare(boolean enable) {
             this.cropSquare = enable;
             return this;
+        }
+
+        public void setCrop4_3(boolean crop4_3) {
+            this.crop4_3 = crop4_3;
+        }
+
+
+        public void setCrop16_9(boolean crop16_9) {
+            this.crop16_9 = crop16_9;
         }
 
         public Builder setSelected(ArrayList<String> selectedList) {
@@ -259,9 +275,11 @@ public class FunctionConfig implements Cloneable{
         return cropHeight;
     }
 
-    public boolean isCropSquare() {
-        return cropSquare;
-    }
+    public boolean isCrop4_3() { return crop4_3;}
+
+    public boolean isCrop16_9() { return crop16_9;}
+
+    public boolean isCropSquare() {return cropSquare;}
 
     public boolean isRotateReplaceSource() {
         return rotateReplaceSource;
