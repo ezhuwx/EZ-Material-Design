@@ -56,6 +56,7 @@ import cn.finalteam.toolsfinal.ActivityManager;
 import cn.finalteam.toolsfinal.StringUtils;
 import cn.finalteam.toolsfinal.io.FileUtils;
 import cn.finalteam.toolsfinal.io.FilenameUtils;
+import cn.finalteam.toolsfinal.logger.Logger;
 
 /**
  * Desction:图片裁剪
@@ -165,16 +166,16 @@ public class PhotoEditActivity extends CropImageActivity implements AdapterView.
             } else if (msg.what == CROP_FAIL) {
                 toast(getString(R.string.crop_fail));
             } else if (msg.what == UPDATE_PATH) {
-                Log.i("handleMessage","UPDATE_PATH");
+                Log.i("handleMessage", "UPDATE_PATH");
                 if (mPhotoList.get(mSelectIndex) != null) {
                     PhotoInfo photoInfo = mPhotoList.get(mSelectIndex);
                     String path = (String) msg.obj;
-                    Log.i("handleMessage","UPDATE_PATH : " + path);
+                    Log.i("handleMessage", "UPDATE_PATH : " + path);
                     try {
                         for (PhotoInfo info : mSelectPhotoList) {
                             if (info != null && info.getPhotoId() == photoInfo.getPhotoId()) {
                                 info.setPhotoPath(path);
-                                Log.i("handleMessage","UPDATE_PATH : " + info.getPhotoPath());
+                                Log.i("handleMessage", "UPDATE_PATH : " + info.getPhotoPath());
                             }
                         }
                     } catch (Exception e) {
@@ -187,7 +188,7 @@ public class PhotoEditActivity extends CropImageActivity implements AdapterView.
                 if (Picseler.getFunctionConfig().isForceCrop() && !Picseler.getFunctionConfig().isForceCropEdit()) {
                     resultAction();
                 }
-    }
+            }
             corpPageState(false);
             mCropState = false;
             if (!(Picseler.getFunctionConfig().isForceCrop() && !Picseler.getFunctionConfig().isForceCropEdit())) {
@@ -202,7 +203,7 @@ public class PhotoEditActivity extends CropImageActivity implements AdapterView.
         if (Picseler.getFunctionConfig() == null || Picseler.getGalleryTheme() == null) {
             resultFailureDelayed(getString(R.string.please_reopen_gf), true);
         } else {
-            Log.i("onCreate","onCreate");
+            Log.i("onCreate", "onCreate");
             setContentView(R.layout.gf_activity_photo_edit);
             mDefaultDrawable = getResources().getDrawable(R.drawable.ic_gf_default_photo);
             mSelectPhotoList = (ArrayList<PhotoInfo>) getIntent().getSerializableExtra(SELECT_MAP);
@@ -259,7 +260,7 @@ public class PhotoEditActivity extends CropImageActivity implements AdapterView.
             }
 
             initCrop(mIvCropPhoto, Picseler.getFunctionConfig().isCropSquare(),
-                    Picseler.getFunctionConfig().isCrop4_3(),Picseler.getFunctionConfig().isCrop16_9(),
+                    Picseler.getFunctionConfig().isCrop4_3(), Picseler.getFunctionConfig().isCrop16_9(),
                     Picseler.getFunctionConfig().getCropWidth(), Picseler.getFunctionConfig().getCropHeight());
             if (mPhotoList.size() > 0 && !mTakePhotoAction) {
                 loadImage(mPhotoList.get(0));
@@ -286,7 +287,7 @@ public class PhotoEditActivity extends CropImageActivity implements AdapterView.
     }
 
     private void setTheme() {
-        if(Picseler.getGalleryTheme().isDarkStatus()){
+        if (Picseler.getGalleryTheme().isDarkStatus()) {
             WindowsFitUtils.setWindowsFitColor(this);
         }
         mIvBack.setImageResource(Picseler.getGalleryTheme().getIconBack());
@@ -453,7 +454,7 @@ public class PhotoEditActivity extends CropImageActivity implements AdapterView.
 
     @Override
     public void setCropSaveSuccess(final File file) {
-        Log.i("setCropSaveSuccess","setCropSaveSuccess");
+        Log.i("setCropSaveSuccess", "setCropSaveSuccess");
         Message message = mHanlder.obtainMessage();
         message.what = CROP_SUC;
         message.obj = file.getAbsolutePath();
@@ -484,6 +485,10 @@ public class PhotoEditActivity extends CropImageActivity implements AdapterView.
                     } else {
                         toFile = new File(mEditPhotoCacheFile, Utils.getFileName(photoInfo.getPhotoPath()) + "_crop." + ext);
                     }
+                    if (!toFile.createNewFile()) {
+                        Logger.getDefaultLogger().i("文件创建失败");
+                        return;
+                    }
                     FileUtils.mkdirs(toFile.getParentFile());
                     onSaveClicked(toFile);//保存裁剪
                 } catch (Exception e) {
@@ -502,7 +507,7 @@ public class PhotoEditActivity extends CropImageActivity implements AdapterView.
                         setCropEnabled(false);
 
                         corpPageState(false);
-                        Log.i("mTvTitle","photo_edit");
+                        Log.i("mTvTitle", "photo_edit");
                         mTvTitle.setText(R.string.photo_edit);
                     } else {
                         corpPageState(true);
