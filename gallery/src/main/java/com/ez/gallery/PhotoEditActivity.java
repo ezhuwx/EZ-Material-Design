@@ -56,7 +56,6 @@ import cn.finalteam.toolsfinal.ActivityManager;
 import cn.finalteam.toolsfinal.StringUtils;
 import cn.finalteam.toolsfinal.io.FileUtils;
 import cn.finalteam.toolsfinal.io.FilenameUtils;
-import cn.finalteam.toolsfinal.logger.Logger;
 
 /**
  * Desction:图片裁剪
@@ -484,10 +483,6 @@ public class PhotoEditActivity extends CropImageActivity implements AdapterView.
                         toFile = new File(photoInfo.getPhotoPath());
                     } else {
                         toFile = new File(mEditPhotoCacheFile, Utils.getFileName(photoInfo.getPhotoPath()) + "_crop." + ext);
-                    }
-                    if (!toFile.createNewFile()) {
-                        Logger.getDefaultLogger().i("文件创建失败");
-                        return;
                     }
                     FileUtils.mkdirs(toFile.getParentFile());
                     onSaveClicked(toFile);//保存裁剪

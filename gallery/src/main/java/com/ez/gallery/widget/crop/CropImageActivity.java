@@ -393,6 +393,9 @@ public abstract class CropImageActivity extends MonitoredActivity {
         if (saveFile != null) {
             OutputStream outputStream = null;
             try {
+                if(Uri.fromFile(saveFile) == null){
+                    saveFile.createNewFile();
+                }
                 outputStream = getContentResolver().openOutputStream(Uri.fromFile(saveFile));
                 if (outputStream != null) {
                     String ext = FilenameUtils.getExtension(saveFile.getAbsolutePath());
