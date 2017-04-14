@@ -26,12 +26,12 @@ public class WindowsFitUtils {
         if (OSUtils.isMIUI()) {
             MIUISetStatusBarLightMode(window, true);
             return;
-        }else if (OSUtils.isFlyme()){
+        } else if (OSUtils.isFlyme()) {
             FlymeSetStatusBarLightMode(window, true);
             return;
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
     }
 
